@@ -1,30 +1,19 @@
-import time
+from typing import Tuple
 
-from application.domain.sensor.consumer.sensor_consumer_scheduler import SensorConsumerScheduler
-from application.domain.sensor.consumer.sensor_consumer import SensorConsumer
-from application.domain.sensor.producer.sensor_producer import SensorProducer
-from application.domain.sensor.producer.sensor_producer_scheduler import SensorProducerScheduler
-from application.domain.temperature.temperature_sensor import TemperatureSensor
-from application.infrastructure.hardware.bme280_sensor.fake_bme280_hardware import FakeBME280
-from application.infrastructure.mqtt.sender.fake_mqtt_sender import FakeMqttSender
-from application.infrastructure.queue.circular_sensor_queue import CircularSensorQueue
-
-queue = CircularSensorQueue()
-bme280 = FakeBME280()
-temp_sensor = TemperatureSensor(bme280)
-
-sensor_producer = SensorProducer(temp_sensor, queue)
-sensor_producer_scheduler = SensorProducerScheduler(sensor_producer)
-sensor_producer_scheduler.schedule(2)
-
-sensor_consumer = SensorConsumer(queue, FakeMqttSender())
-sensor_consumer_scheduler = SensorConsumerScheduler(sensor_consumer)
-sensor_consumer_scheduler.schedule(1)
+from application.infrastructure.app.app import App
+from application.infrastructure.app.config.application_config import AppConfig
+from application.infrastructure.app.hardware_registry.generic_linux.generic_linux_hardware_registry import \
+    GenericLinuxHardwareRegistry
+from application.infrastructure.app.hardware_registry.hardware_registry import HardwareRegistry
 
 
-"""
-while True:
-    val = temp_sensor.read()
-    print('value from sensor = ', val.to_string())
-    time.sleep(1)
-"""
+def bootstrap_hardware_registry_and_config() -> Tuple[AppConfig, HardwareRegistry]:
+
+    print('LOADED GENERIC_LINUX_HARDWARE')
+    return AppConfig("application/resources/application.config.generic-pc.yml"), GenericLinuxHardwareRegistry()
+
+
+config, hardware_registry = bootstrap_hardware_registry_and_config()
+app = App(config, hardware_registry)
+app.setup()
+app.loop_forever()
