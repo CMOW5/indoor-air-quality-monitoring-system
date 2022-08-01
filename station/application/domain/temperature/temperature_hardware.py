@@ -9,7 +9,7 @@ class TemperatureHardware:
     @abstractmethod
     def read_temperature(self) -> float:
         """
-        the temperature value from the actual physical sensor/hardware.
+        reads the temperature value from the actual physical sensor/hardware.
 
         :returns the temperature value
         """
