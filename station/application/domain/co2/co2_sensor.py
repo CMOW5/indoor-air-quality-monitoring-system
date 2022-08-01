@@ -1,7 +1,5 @@
-from datetime import datetime
-
 from station.application.domain.co2.co2_hardware import CO2Hardware
-from station.application.domain.sensor.sensor import Sensor, SensorData
+from station.application.domain.sensor.sensor import Sensor
 
 
 class CO2Sensor(Sensor):
@@ -16,13 +14,11 @@ class CO2Sensor(Sensor):
     def __init__(self, hardware: CO2Hardware):
         self.hardware = hardware
 
-    def read(self) -> SensorData:
+    def __read_from_hardware(self):
         """
         reads the co2 value from the sensor.
 
-        :return the co2 sensor data
+        :return the co2 value
         """
-        eco2 = self.hardware.read_co2()
-        timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        return SensorData(eco2, timestamp)
+        return self.hardware.read_co2()
 

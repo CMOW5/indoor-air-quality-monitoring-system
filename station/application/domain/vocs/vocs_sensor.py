@@ -17,13 +17,11 @@ class VOCsSensor(Sensor):
     def __init__(self, hardware: VOCsHardware):
         self.hardware = hardware
 
-    def read(self) -> SensorData:
+    def __read_from_hardware(self):
         """
         reads the tVOCS value from the sensor.
 
-        :return the tVOCS sensor data
+        :return the tVOCS value
         """
-        tvocs = self.hardware.read_tvocs()
-        timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        return SensorData(tvocs, timestamp)
+        return self.hardware.read_tvocs()
 

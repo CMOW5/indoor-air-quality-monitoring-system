@@ -1,7 +1,5 @@
-from datetime import datetime
-
 from station.application.domain.pm10.pm10_hardware import PM10Hardware
-from station.application.domain.sensor.sensor import Sensor, SensorData
+from station.application.domain.sensor.sensor import Sensor
 
 
 class PM10Sensor(Sensor):
@@ -17,12 +15,10 @@ class PM10Sensor(Sensor):
     def __init__(self, hardware: PM10Hardware):
         self.hardware = hardware
 
-    def read(self) -> SensorData:
+    def __read_from_hardware(self):
         """
         reads the pm10 value from the sensor.
 
-        :return the pm10 sensor data
+        :return the pm10 value
         """
-        pm10 = self.hardware.read_pm10()
-        timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        return SensorData(pm10, timestamp)
+        return self.hardware.read_pm10()

@@ -1,7 +1,5 @@
-from datetime import datetime
-
 from station.application.domain.humidity.humidity_hardware import HumidityHardware
-from station.application.domain.sensor.sensor import Sensor, SensorData
+from station.application.domain.sensor.sensor import Sensor
 
 
 class HumiditySensor(Sensor):
@@ -16,13 +14,11 @@ class HumiditySensor(Sensor):
     def __init__(self, hardware: HumidityHardware):
         self.hardware = hardware
 
-    def read(self) -> SensorData:
+    def __read_from_hardware(self):
         """
         reads the relative humidity value from the sensor.
 
-        :return the relative humidity sensor data
+        :return the relative humidity
         """
-        humidity = self.hardware.read_humidity()
-        timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        return SensorData(humidity, timestamp)
+        return self.hardware.read_humidity()
 

@@ -17,14 +17,10 @@ class TemperatureSensor(Sensor):
     def __init__(self, hardware: TemperatureHardware):
         self.hardware = hardware
 
-    def read(self) -> SensorData:
+    def __read_from_hardware(self):
         """
         reads the temperature value from the sensor.
 
-        :return the temperature sensor data
+        :return the temperature value in celsius
         """
-
-        temperature = self.hardware.read_temperature()
-        timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        return SensorData(temperature, timestamp)
-
+        return self.hardware.read_temperature()

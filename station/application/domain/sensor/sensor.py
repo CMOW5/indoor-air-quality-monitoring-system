@@ -1,5 +1,6 @@
 from abc import abstractmethod
 import json
+from datetime import datetime
 
 
 class SensorData:
@@ -42,12 +43,24 @@ class Sensor:
     """
         An interface to represent a sensor from which we want to read data.
     """
+    DATE_FORMATTER = '%Y-%m-%dT%H:%M:%SZ'
 
-    @abstractmethod
     def read(self) -> SensorData:
         """
         reads the data from the sensor.
 
-        :returns the sensor data
+        :return the sensor data
+        """
+        sensor_value = self.__read_from_hardware()
+        timestamp = datetime.utcnow().strftime(Sensor.DATE_FORMATTER)
+        return SensorData(sensor_value, timestamp)
+
+    @abstractmethod
+    def __read_from_hardware(self):
+        """
+        reads the data from the actual physical hardware.
+        reading from the hardware depends on the Sensor implementation
+
+        :return the sensor data
         """
         raise NotImplementedError

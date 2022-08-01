@@ -17,12 +17,10 @@ class PM25Sensor(Sensor):
     def __init__(self, hardware: PM25Hardware):
         self.hardware = hardware
 
-    def read(self) -> SensorData:
+    def __read_from_hardware(self):
         """
-           reads the pm2.5 value from the sensor.
+        reads the pm2.5 value from the sensor.
 
-           :return the pm2.5 sensor data
+        :return the pm2.5 value
         """
-        pm25 = self.hardware.read_pm25()
-        timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        return SensorData(pm25, timestamp)
+        return self.hardware.read_pm25()
