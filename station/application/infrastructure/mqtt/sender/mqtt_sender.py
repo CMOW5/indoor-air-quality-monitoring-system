@@ -1,6 +1,5 @@
 import json
 import paho.mqtt.client as mqtt
-from abc import abstractmethod
 from application.domain.sensor.sender.sensor_sender import SensorSender
 from application.domain.sensor.sensor import SensorData
 from application.infrastructure.mqtt.config.mqtt_config import MqttConfig
