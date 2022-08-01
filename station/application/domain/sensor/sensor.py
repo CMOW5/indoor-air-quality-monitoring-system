@@ -51,12 +51,12 @@ class Sensor:
 
         :return the sensor data
         """
-        sensor_value = self.__read_from_hardware()
+        sensor_value = self.read_from_hardware()
         timestamp = datetime.utcnow().strftime(Sensor.DATE_FORMATTER)
         return SensorData(sensor_value, timestamp)
 
     @abstractmethod
-    def __read_from_hardware(self):
+    def read_from_hardware(self):
         """
         reads the data from the actual physical hardware.
         reading from the hardware depends on the Sensor implementation

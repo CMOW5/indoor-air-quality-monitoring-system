@@ -1,5 +1,5 @@
-from station.application.domain.co2.co2_hardware import CO2Hardware
-from station.application.domain.sensor.sensor import Sensor
+from application.domain.co2.co2_hardware import CO2Hardware
+from application.domain.sensor.sensor import Sensor
 
 
 class CO2Sensor(Sensor):
@@ -14,7 +14,7 @@ class CO2Sensor(Sensor):
     def __init__(self, hardware: CO2Hardware):
         self.hardware = hardware
 
-    def __read_from_hardware(self):
+    def read_from_hardware(self):
         """
         reads the co2 value from the sensor.
 

@@ -1,5 +1,5 @@
-from station.application.domain.humidity.humidity_hardware import HumidityHardware
-from station.application.domain.sensor.sensor import Sensor
+from application.domain.humidity.humidity_hardware import HumidityHardware
+from application.domain.sensor.sensor import Sensor
 
 
 class HumiditySensor(Sensor):
@@ -14,7 +14,7 @@ class HumiditySensor(Sensor):
     def __init__(self, hardware: HumidityHardware):
         self.hardware = hardware
 
-    def __read_from_hardware(self):
+    def read_from_hardware(self):
         """
         reads the relative humidity value from the sensor.
 

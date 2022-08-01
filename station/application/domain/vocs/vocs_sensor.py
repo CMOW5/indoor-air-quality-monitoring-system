@@ -1,7 +1,7 @@
-from datetime import datetime
 
-from station.application.domain.sensor.sensor import Sensor, SensorData
-from station.application.domain.vocs.vocs_hardware import VOCsHardware
+
+from application.domain.sensor.sensor import Sensor
+from application.domain.vocs.vocs_hardware import VOCsHardware
 
 
 class VOCsSensor(Sensor):
@@ -17,7 +17,7 @@ class VOCsSensor(Sensor):
     def __init__(self, hardware: VOCsHardware):
         self.hardware = hardware
 
-    def __read_from_hardware(self):
+    def read_from_hardware(self):
         """
         reads the tVOCS value from the sensor.
 

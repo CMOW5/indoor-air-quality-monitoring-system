@@ -1,7 +1,6 @@
-from datetime import datetime
 
-from station.application.domain.pm25.pm25_hardware import PM25Hardware
-from station.application.domain.sensor.sensor import Sensor, SensorData
+from application.domain.pm25.pm25_hardware import PM25Hardware
+from application.domain.sensor.sensor import Sensor
 
 
 class PM25Sensor(Sensor):
@@ -17,7 +16,7 @@ class PM25Sensor(Sensor):
     def __init__(self, hardware: PM25Hardware):
         self.hardware = hardware
 
-    def __read_from_hardware(self):
+    def read_from_hardware(self):
         """
         reads the pm2.5 value from the sensor.
 

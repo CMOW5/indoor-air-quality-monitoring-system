@@ -1,5 +1,5 @@
-from station.application.domain.pm10.pm10_hardware import PM10Hardware
-from station.application.domain.sensor.sensor import Sensor
+from application.domain.pm10.pm10_hardware import PM10Hardware
+from application.domain.sensor.sensor import Sensor
 
 
 class PM10Sensor(Sensor):
@@ -15,7 +15,7 @@ class PM10Sensor(Sensor):
     def __init__(self, hardware: PM10Hardware):
         self.hardware = hardware
 
-    def __read_from_hardware(self):
+    def read_from_hardware(self):
         """
         reads the pm10 value from the sensor.
 
