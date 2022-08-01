@@ -1,5 +1,5 @@
-from station.application.domain.sensor.sender.sensor_sender import SensorSender
-from station.application.domain.sensor.sensor_queue import SensorQueue
+from application.domain.sensor.sender.sensor_sender import SensorSender
+from application.domain.sensor.sensor_queue import SensorQueue
 
 
 class SensorConsumer:

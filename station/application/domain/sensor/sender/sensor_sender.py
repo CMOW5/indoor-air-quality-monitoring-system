@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from station.application.domain.sensor.sensor import SensorData
+from application.domain.sensor.sensor import SensorData
 
 
 class SensorSender:

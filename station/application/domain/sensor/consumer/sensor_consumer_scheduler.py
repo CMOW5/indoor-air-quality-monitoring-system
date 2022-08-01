@@ -1,6 +1,6 @@
 import threading
 
-from station.application.domain.sensor.consumer.sensor_consumer import SensorConsumer
+from application.domain.sensor.consumer.sensor_consumer import SensorConsumer
 
 
 class SensorConsumerScheduler:

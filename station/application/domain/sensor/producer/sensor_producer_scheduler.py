@@ -1,6 +1,6 @@
 import threading
 
-from station.application.domain.sensor.producer.sensor_producer import SensorProducer
+from application.domain.sensor.producer.sensor_producer import SensorProducer
 
 
 class SensorProducerScheduler:
