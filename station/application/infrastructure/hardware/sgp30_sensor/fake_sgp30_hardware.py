@@ -9,7 +9,7 @@ class FakeSGP30(CO2Hardware, VOCsHardware):
     """
 
     def __init__(self):
-        self.co2 = 0
+        self.co2 = 400
         self.min_co2 = 400
         self.max_co2 = 60000
         self.co2_step = 500
@@ -29,5 +29,5 @@ class FakeSGP30(CO2Hardware, VOCsHardware):
         self.tvocs = self.min_tvocs if self.tvocs == self.max_tvocs \
                                     else self.tvocs + self.tvocs_step
 
-        return self.co2
+        return self.tvocs
 
