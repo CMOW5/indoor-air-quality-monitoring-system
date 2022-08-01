@@ -8,9 +8,17 @@ from application.infrastructure.app.hardware_registry.hardware_registry import H
 
 
 def bootstrap_hardware_registry_and_config() -> Tuple[AppConfig, HardwareRegistry]:
-
-    print('LOADED GENERIC_LINUX_HARDWARE')
-    return AppConfig("application/resources/application.config.generic-pc.yml"), GenericLinuxHardwareRegistry()
+    try:
+        # let's try to bootstrap a raspberry pi hardware
+        from application.infrastructure.app.hardware_registry.raspberry_pi.raspberry_pi_hardware_registry import \
+            RaspberryPiHardwareRegistry
+        print('LOADED RASPBERRY_PI_HARDWARE')
+        return AppConfig("application/resources/application.config.raspberrypi.yml"), RaspberryPiHardwareRegistry()
+    except NotImplementedError:
+        # the application is likely not running on a raspberry pi, so let's bootstrap a generic linux hardware.
+        # This is, a bunch of fake (software) sensors
+        print('LOADED GENERIC_LINUX_HARDWARE')
+        return AppConfig("application/resources/application.config.generic-pc.yml"), GenericLinuxHardwareRegistry()
 
 
 config, hardware_registry = bootstrap_hardware_registry_and_config()
