@@ -1,0 +1,22 @@
+## useful commands
+# connect to raspi
+ssh pi@192.168.1.7
+
+# find out the raspberry pi's ip address
+sudo nmap -sn 192.168.1.0/24 
+
+# copy code
+rsync -avz . pi@192.168.1.7:project-vector/ 
+
+# start mongo
+sudo systemctl start mongod
+
+# start mosquitto
+#mosquitto -p 1884
+sudo mosquitto  -c /etc/mosquitto/mosquitto.conf 
+
+# see active processes (useful to kill mosquitto)
+sudo netstat -tulpn 
+
+# install packages
+pip install -r requirements.txt 
