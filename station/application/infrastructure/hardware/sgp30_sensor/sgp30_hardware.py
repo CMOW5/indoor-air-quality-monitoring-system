@@ -12,6 +12,11 @@ from application.infrastructure.hardware.sgp30_sensor.baseline.sgp30_baseline_re
 
 
 class SGP30(CO2Hardware, VOCsHardware):
+    """
+     An implementation of the SGP30 sensor. This class is a wrapper for adafruit_sgp30 library to
+     read the tvocs and eco2 values using I2C communication
+    """
+
     threadLock = threading.Lock()
 
     BASELINE_CALIBRATION_12_HOURS_SECONDS = 43200
@@ -34,6 +39,12 @@ class SGP30(CO2Hardware, VOCsHardware):
         self.init_iaq_baseline()
 
     def init_iaq_baseline(self):
+        """
+        Restarting the sensor without reading back a previously stored baseline will result in the sensor
+        trying to determine a new baseline. Here, we are getting a previously stored baseline from the persistent
+        storage. If we can't get a baseline, the sensor needs to run for about 12H to get a new baseline
+        @return:
+        """
         self.set_temperature_and_humidity_compensation()
 
         try:
@@ -43,6 +54,10 @@ class SGP30(CO2Hardware, VOCsHardware):
         except ValueError as error:
             print("WARNING while getting the iaq_baseline because we don't have one. setting the "
                   "baseline_write_time_seconds to 12 hours to start the calibration", error)
+            """
+            If no stored baseline is available after initializing the baseline algorithm, 
+            the sensor has to run for 12 hours until the baseline can be stored.
+            """
             self.baseline_write_time_seconds = SGP30.BASELINE_CALIBRATION_12_HOURS_SECONDS
         except FileNotFoundError as error:
             print('WARNING while setting the iaq_baseline ', error)
@@ -53,6 +68,15 @@ class SGP30(CO2Hardware, VOCsHardware):
         self.sgp30.set_iaq_relative_humidity(celsius=celsius, relative_humidity=relative_humidity)
 
     def read_sensor_data(self) -> dict:
+        """
+           reads the data from the SGP30 sensor via I2C.
+           The method is synchronized to avoid two threads trying to communicate at the same time with the sensor.
+           This is because we don't want a thread to get in the middle of a read started by a different thread and
+           potentially corrupting the data/communication
+
+           @return a dictionary containing the TVOC (key= TVOC) and
+                   co2 (key= eCO2) values
+        """
         with self.threadLock:
             read_time = time.time()
 
@@ -81,6 +105,12 @@ class SGP30(CO2Hardware, VOCsHardware):
         return self.sgp30.baseline_TVOC
 
     def save_iqa_baseline(self):
+        """
+        Every hour, the save the sensor baseline in a persistent storage so the next time the sensor is turned on
+        it can use the baseline (to avoid having the sensor run for 12 hours)
+        Restarting the sensor without reading back a previously stored baseline will result in the sensor
+        trying to determine a new baseline.
+        """
         current_time = time.time()
 
         if self.should_save_iaq_baseline(current_time):

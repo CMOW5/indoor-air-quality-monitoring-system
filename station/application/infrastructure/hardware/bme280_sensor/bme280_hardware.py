@@ -24,6 +24,15 @@ class BME280(TemperatureHardware, HumidityHardware):
         self.cache_time_to_live_seconds = 1
 
     def read_sensor_data(self) -> dict:
+        """
+           reads the data from the BME280 sensor via I2C.
+           The method is synchronized to avoid two threads trying to communicate at the same time with the sensor.
+           This is because we don't want a thread to get in the middle of a read started by a different thread and
+           potentially corrupting the data/communication
+
+           @return a dictionary containing the temperature (key= temperature) and
+                   humidity (key= relative_humidity) values
+        """
         with self.threadLock:
             read_time = time.time()
 

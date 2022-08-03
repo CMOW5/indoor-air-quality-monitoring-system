@@ -2,6 +2,13 @@ from typing import Tuple
 
 
 class SGP30Repository:
+    """
+     A repository to save the SGP30 Baseline values (see the SGP30 datasheet for more information)
+
+     This is just reading and writing the baseline values to a file stored inside the raspberry pi
+    """
+
+    # @todo: don't hardcode this value. Move it to appconfig and inject it during this class's instantiation
     BASELINE_FILE = '/home/pi/project-vector/iaq_repo/iaq_baseline.txt'
 
     BASELINE_SEPARATOR = ','

@@ -6,6 +6,15 @@ from application.infrastructure.hardware.sgp30_sensor.sgp30_hardware import SGP3
 
 
 class RaspberryPiHardwareRegistry(HardwareRegistry):
+    """
+      The hardware registry for the raspberry pi. Here, we create the available hardware (sensors, chips)
+      with which we can communicate.
+      @todo should we make this a singleton ??
+
+      usage: just ask for the hardware you want, and the registry should give you the provided implementation
+      temp_hardware = hardware_registry.get_temperature_hardware()
+      custom_hardware = hardware_registry.get_hardware('custom_hardware')
+    """
     def __init__(self):
         super().__init__()
 
