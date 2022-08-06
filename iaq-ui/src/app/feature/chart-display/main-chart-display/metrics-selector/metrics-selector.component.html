@@ -1,0 +1,32 @@
+
+<div class="metrics-selector-container">
+    <mat-form-field class="metrics-selector" appearance="outline">
+        <mat-label>Metrics</mat-label>
+        <mat-chip-list #chipList aria-label="Metric selection">
+        <mat-chip
+            *ngFor="let metric of selectedMetrics"
+            (removed)="remove(metric)" 
+            [style.background-color]="metric.metadata.color"
+            class="metric-chip">
+            <mat-icon aria-hidden="false">{{metric.metadata.icon}}</mat-icon>
+                {{metric.name}}
+            <button matChipRemove>
+                <mat-icon class="metric-chip-cancel-button">cancel</mat-icon>
+            </button>
+        </mat-chip>
+        <input
+            placeholder="New Metric..."
+            #metricInput
+            [formControl]="metricsFormControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addByKeyboardInput($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let metric of filteredMetrics | async" [value]="metric">
+            {{metric}}
+        </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
