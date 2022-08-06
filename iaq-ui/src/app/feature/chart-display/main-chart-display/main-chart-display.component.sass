@@ -1,0 +1,38 @@
+@use 'sass:map'
+@use '@angular/material' as mat
+@import '~@angular/material/theming'
+@include mat-core()
+
+$primary: mat-palette($mat-indigo)
+$accent:  mat-palette($mat-yellow)
+$warn:    mat-palette($mat-red)
+
+$theme: mat-light-theme($primary, $accent, $warn)
+
+.chart-display-root-container
+    position: relative
+    border: 2.5px solid mat-color($primary)
+    border-style: groove
+    border-radius: 1em
+    margin: 1em
+    padding: 1.5em 1.5em 3em 1.5em
+
+.chart-root
+    display: grid
+    grid-template-columns: auto auto auto
+    gap: 10px
+    //grid-auto-rows: minmax(100px, auto)
+    justify-items: center
+    justify-content: center
+    align-content: center
+
+.chart-display-remove-button
+    position: absolute 
+    right: 1rem 
+    top: 0.5rem       
+
+.station-selector-container 
+    display: flex
+    align-items: center
+    justify-content: center
+
