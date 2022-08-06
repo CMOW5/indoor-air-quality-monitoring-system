@@ -1,0 +1,23 @@
+
+<div class="chart-display-root-container">
+  
+  <div class="station-selector-container">
+    <app-station-selector (stationMetricSelected)="onStationSelected($event)"></app-station-selector>
+  </div>
+
+  <app-metrics-selector (metricsSelected)="onMetricsSelected($event)"></app-metrics-selector>
+  
+  <app-date-selector (timeSelected)="onTimeSelected($event)"></app-date-selector>
+  
+  <button class="chart-display-remove-button" mat-fab color="warn" (click)="removeChart()">
+    <mat-icon>close</mat-icon>
+  </button>
+  
+  <div class="chart-root">
+    <app-single-chart-display 
+      *ngFor="let metric of selectedMetrics; index as i;" [metric]="metric" [stations]="selectedStations"
+      [dateRange]="selectedDateRange">
+    </app-single-chart-display>
+  </div>
+    
+</div>
