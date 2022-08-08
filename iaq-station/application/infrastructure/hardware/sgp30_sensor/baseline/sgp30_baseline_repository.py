@@ -1,4 +1,6 @@
+import os
 from typing import Tuple
+from definitions import IAQ_REPO_DIR
 
 
 class SGP30Repository:
@@ -9,7 +11,7 @@ class SGP30Repository:
     """
 
     # @todo: don't hardcode this value. Move it to appconfig and inject it during this class's instantiation
-    BASELINE_FILE = '/home/pi/project-vector/iaq_repo/iaq_baseline.txt'
+    BASELINE_FILE = os.path.join(IAQ_REPO_DIR, 'iaq_baseline.txt')
 
     BASELINE_SEPARATOR = ','
 
