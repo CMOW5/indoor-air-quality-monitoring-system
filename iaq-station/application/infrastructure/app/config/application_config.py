@@ -1,4 +1,6 @@
 import yaml
+import os
+from definitions import CERT_DIR
 
 
 class AppConfig:
@@ -32,6 +34,18 @@ class AppConfig:
     @property
     def mqtt_keepalive(self):
         return self.configs['mqtt']['keepalive']
+
+    @property
+    def mqtt_cert_filepath(self):
+        return os.path.join(CERT_DIR, self.configs['mqtt']['cert_filepath'])
+
+    @property
+    def mqtt_private_key_filepath(self):
+        return os.path.join(CERT_DIR, self.configs['mqtt']['private_key_filepath'])
+
+    @property
+    def mqtt_ca_filepath(self):
+        return os.path.join(CERT_DIR, self.configs['mqtt']['ca_filepath'])
 
     @property
     def temperature_mqtt_topic(self):
