@@ -33,7 +33,7 @@ class AwsMqttConnection(metaclass=ThreadSafeSingleton):
         connect_future: Future = self.mqtt_connection.connect()
         connect_future.result()
 
-    def get_mqtt_connection(self):
+    def get_mqtt_connection(self) -> mqtt.Connection:
         return self.mqtt_connection
 
     # Callback when connection is accidentally lost.
