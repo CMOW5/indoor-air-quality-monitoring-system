@@ -13,13 +13,37 @@ import { DateSelectorComponent } from './main-chart-display/date-selector/date-s
 import { RealtimeDateSelectorComponent } from './main-chart-display/date-selector/realtime-date-selector/realtime-date-selector.component';
 import { HistoricDateSelectorComponent } from './main-chart-display/date-selector/historic-date-selector/historic-date-selector.component';
 
+/*
+{
+  "stationId": "test-station-pc-1",
+  "value": 16,
+  "timestamp": "2022-08-12T01:47:49Z"
+}
+*/
 
 // MQTT configuration
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
-  hostname: 'localhost',
-  port: 9001,
+  hostname: 'AWS-HOST',
+  port: 443,
   //protocol: 'ws',
-  path: '/mqtt'
+  path: '/mqtt',
+  // todo: mqtt cert
+  ca: `
+-----BEGIN CERTIFICATE-----
+<CA>
+-----END CERTIFICATE-----  
+  `,
+  key: `
+  -----BEGIN RSA PRIVATE KEY-----
+<KEY>
+-----END RSA PRIVATE KEY-----
+  `,
+  cert: `
+-----BEGIN CERTIFICATE-----
+  <CERT>
+-----END CERTIFICATE-----
+  `,
+  clientId: 'client-12'
 };
 
 @NgModule({

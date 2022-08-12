@@ -21,11 +21,11 @@ class App:
     def setup(self):
         print('setting up application...')
         self._setup_temperature()
-        self._setup_humidity()
-        self._setup_pm25()
-        self._setup_pm10()
-        self._setup_co2()
-        self._setup_vocs()
+        #self._setup_humidity()
+        #self._setup_pm25()
+        #self._setup_pm10()
+        #self._setup_co2()
+        #self._setup_vocs()
 
     def _setup_temperature(self):
         sensor = TemperatureSensor(self.hardware_registry.get_temperature_hardware())

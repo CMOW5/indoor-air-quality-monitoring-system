@@ -51,7 +51,7 @@ export class MetricsSelectorComponent implements OnInit {
 
   ngOnInit(): void {
     this.metricService.getMetrics().subscribe(metrics => {
-      this.allMetrics = metrics
+      this.allMetrics = metrics.filter(metric => metric.id === "temperature")
       this.initFilteredMetrics();
       // todo: set a conditional for this maybe? (to pre-select all the metrics for station x)
       this.selectedMetrics = this.allMetrics.slice();
