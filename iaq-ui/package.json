@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "@stomp/stompjs": "^6.1.2",
+    "aws-amplify": "^4.3.30",
     "chart.js": "^3.7.1",
     "chartjs-adapter-moment": "^1.0.0",
     "moment": "^2.29.3",
