@@ -2,8 +2,25 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const API_BASE_PATH = "http://localhost:8080"
+const API_CONFIGS_BASE_PATH = `${API_BASE_PATH}/configs`;
+
 export const environment = {
-  production: false
+  production: false,
+  API_BASE_PATH: API_BASE_PATH,
+
+  // station api endpoints
+  API_STATION_PATH: `${API_BASE_PATH}/station`,
+  API_METRIC_PATH: `${API_BASE_PATH}/metrics`,
+
+  // historic API endpoints
+  buildHistoricUrl: function(stationId: string, metric: string) {
+    return `${environment.API_STATION_PATH}/${stationId}/metric/${metric}/historic`;
+  },
+
+
+  // MQTT configs endpoint
+  MQTT_CONFIGS_PATH: `${API_CONFIGS_BASE_PATH}/mqtt`,
 };
 
 /*
