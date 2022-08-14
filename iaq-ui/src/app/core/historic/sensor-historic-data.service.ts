@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class SensorHistoricDataService {
     let params = new HttpParams();
     params = params.set('start', start.toISOString());
     params = params.set('end', end.toISOString());
-    const url = `http://localhost:8080/station/${station}/metric/${metric}/historic`
+    const url = environment.buildHistoricUrl(station, metric); 
 
     return new Observable((observer) => {
       this.httpClient.get<Array<any>>(url, {params: params}).subscribe((response) => {
@@ -21,9 +22,5 @@ export class SensorHistoricDataService {
         observer.next(response);
       });      
     });
-  }
-
-  private convertToDto() {
-
   }
 }

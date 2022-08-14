@@ -15,6 +15,9 @@ class MqttConfig:
         self.port = app_config.mqtt_port
         self.keepalive = app_config.mqtt_keepalive
         self.topic = topic
+        self.cert_filepath = app_config.mqtt_cert_filepath
+        self.private_key_filepath = app_config.mqtt_private_key_filepath
+        self.ca_filepath = app_config.mqtt_ca_filepath
 
 
 
