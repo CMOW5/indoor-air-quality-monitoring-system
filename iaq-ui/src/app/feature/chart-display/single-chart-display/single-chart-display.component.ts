@@ -31,7 +31,7 @@ export class SingleChartDisplayComponent implements OnInit {
 
   private mqttSubscriptions: Array<Subscription> = [];
 
-  public datasets = [
+  public datasets: Array<ChartDataSet> = [
     {
       data: [
        {}
@@ -129,7 +129,7 @@ export class SingleChartDisplayComponent implements OnInit {
             });
     this.chart?.update(); // updating the chart here before removing the first datapoint
                           // to make the chart visualization smoother         
-    this.removeFirstDataPoints();        
+    this.removeFirstDataPoints(station);        
     this.chart?.update();
   }
 
@@ -138,8 +138,9 @@ export class SingleChartDisplayComponent implements OnInit {
    * With realtime, we only want to show the last X seconds/minutes/hours of data, so we need
    * to delete the data that's older than the the last X seconds/minutes/hours 
    */
-  removeFirstDataPoints() {
+  removeFirstDataPoints(station: Station) {
     this.datasets
+          .filter(dataset => dataset.label == station.id)
           .forEach((dataset) => {
             const firstDatapoint = dataset.data[0] as DataPoint;
             const lastDatapoint = dataset.data[dataset.data.length - 1] as DataPoint;
@@ -219,7 +220,16 @@ export class SingleChartDisplayComponent implements OnInit {
     console.log('selected metrics = ', this.metric);
 
     this.stations.forEach((station) => {
-      const dataset = { label: station.name, data: []};
+      const randomColor = this.randomRgba();
+      const backgroundColor = station.metadata.principal ? this.metric.metadata.backgroundColor : this.setRgbaAlpha(randomColor, 0.5);
+      const borderColor = station.metadata.principal ? this.metric.metadata.color : this.setRgbaAlpha(randomColor, 1);
+
+      const dataset = { 
+        label: station.name, 
+        data: [], 
+        backgroundColor: backgroundColor,
+        borderColor: borderColor
+      };
       this.datasets.push(dataset);
     });
 
@@ -289,11 +299,39 @@ export class SingleChartDisplayComponent implements OnInit {
     this.mqttSubscriptions.forEach(subscription => subscription.unsubscribe());
     this.mqttSubscriptions = [];
   }
-  
 
+  // TODO: improve this, maybe set the color by station
+  /**
+   * a hacky way of generating random colors
+   * @returns 
+   */
+  private randomRgba() {
+    const s = 255;
+    return 'rgba(' + Math.round(Math.random()*s) + ',' 
+                   + Math.round(Math.random()*s) + ',' 
+                   + Math.round(Math.random()*s) + ',' 
+                   + Math.random().toFixed(1) + ')';
+  }
+  
+  /**
+   * set the alpha value for the given rgba
+   * @param rgba the rgba to be changed
+   * @param alpha the new alpha to be applied
+   * @returns a new rgba with the original rgb and the new alpha
+   */
+  private setRgbaAlpha(rgba: string, alpha: number) {
+    const index = rgba.lastIndexOf(',');
+    return rgba.substring(0, index) + `, ${alpha})`;
+  }                 
 }
 
 interface DataPoint {
   x: Date,
   y: number
+}
+
+interface ChartDataSet  {
+  data: Array<any>,
+  label: string
+  backgroundColor?: string
 }
