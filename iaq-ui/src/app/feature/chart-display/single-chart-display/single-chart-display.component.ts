@@ -93,10 +93,10 @@ export class SingleChartDisplayComponent implements OnInit {
           */
           //unit: 'minute', // works kinda well??
           displayFormats: {
-            'millisecond': 'HH:mm',
-            'second': 'HH:mm',
+            'millisecond': 'HH:mm:ss',
+            'second': 'HH:mm:ss',
             'minute': 'HH:mm',
-            'hour': 'HH:mm',
+            'hour': 'HH',
             'day': 'MM DD HH',
             'week': 'MM DD HH',
             'month': 'MM DD HH',
