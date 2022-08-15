@@ -1,0 +1,4 @@
+# running unit tests
+python3 -m unittest discover -s application/test/ -p "*_test.py"
+
+
