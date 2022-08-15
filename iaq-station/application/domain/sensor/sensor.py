@@ -19,6 +19,30 @@ class SensorData:
         self.value = value
         self.timestamp = timestamp
 
+    """
+    Sorting SensorData by timestamp
+    @todo: shall we include the value as well in the lt, le, ge, gt methods?? 
+           it looks like this comparator logic should be outside of this class
+           and should be part of the PriorityQueue class
+    """
+    def __eq__(self, other):
+        return (self.timestamp == other.timestamp) and (self.value == other.value)
+
+    def __ne__(self, other):
+        return self.timestamp != other.timestamp
+
+    def __lt__(self, other):
+        return self.timestamp < other.timestamp
+
+    def __le__(self, other):
+        return self.timestamp <= other.timestamp
+
+    def __gt__(self, other):
+        return self.timestamp > other.timestamp
+
+    def __ge__(self, other):
+        return self.timestamp >= other.timestamp
+
     def to_json(self) -> dict:
         """
         the json representation of the data.
