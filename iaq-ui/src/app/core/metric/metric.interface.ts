@@ -5,6 +5,7 @@ export interface Metric {
     unit: string;
     metadata: {
         color: string,
+        backgroundColor: string,
         icon: string,
         min: number
     }

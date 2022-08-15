@@ -6,6 +6,8 @@ public class MetricMetadataEntity {
 
     private String color;
 
+    private String backgroundColor;
+
     private String icon;
 
     private int min;
@@ -13,7 +15,7 @@ public class MetricMetadataEntity {
     private MetricMetadataEntity() {}
 
     public static MetricMetadata toDomain(MetricMetadataEntity metadataEntity) {
-        return new MetricMetadata(metadataEntity.getColor(), metadataEntity.getIcon(), metadataEntity.getMin());
+        return new MetricMetadata(metadataEntity.getColor(), metadataEntity.getBackgroundColor(), metadataEntity.getIcon(), metadataEntity.getMin());
     }
 
     public String getColor() {
@@ -22,6 +24,14 @@ public class MetricMetadataEntity {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     public String getIcon() {
