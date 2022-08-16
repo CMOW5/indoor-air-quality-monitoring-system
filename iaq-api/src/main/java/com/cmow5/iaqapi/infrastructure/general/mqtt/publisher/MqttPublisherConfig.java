@@ -3,6 +3,7 @@ package com.cmow5.iaqapi.infrastructure.general.mqtt.publisher;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
@@ -16,6 +17,7 @@ import org.springframework.messaging.MessageHandler;
  * Configuration Beans to create an MQTT publisher for topic sensor/temperature
  */
 @Configuration
+@Profile("LOCAL_MQTT_ENABLED")
 public class MqttPublisherConfig {
 
     public static final String MQTT_URL = "tcp://localhost:1884";
