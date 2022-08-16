@@ -9,6 +9,7 @@ import com.cmow5.iaqapi.infrastructure.vocs.mqtt.MqttVocsSensorInboundMessageHan
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
@@ -22,6 +23,7 @@ import org.springframework.messaging.support.GenericMessage;
  * Configuration Beans to create an MQTT subscription for topic sensor/temperature
  */
 @Configuration
+@Profile("LOCAL_MQTT_ENABLED")
 public class MqttSubscriptionConfig {
 
     public static final String MQTT_URL = "tcp://localhost:1884";
