@@ -16,8 +16,6 @@ cpu = 512
 
 memory = 1024
 
-# 8080
 container_port = 8080 
 
-# "cmow5/iaq-api"
 docker_image_id = "354562611480.dkr.ecr.us-east-1.amazonaws.com/iaq-api" 

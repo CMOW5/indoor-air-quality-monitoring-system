@@ -1,3 +1,4 @@
-output "load_balancer_ip" {
-  value = aws_alb.alb.dns_name
+
+output "api_load_balancer_ip" {
+  value = module.api_load_balancer.load_balancer_ip
 }
