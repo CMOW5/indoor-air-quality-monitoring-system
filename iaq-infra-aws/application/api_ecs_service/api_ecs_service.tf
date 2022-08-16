@@ -6,7 +6,8 @@ resource "aws_security_group" "iaq_api_task_definition_security_group" {
     protocol        = "tcp"
     from_port       = var.container_port
     to_port         = var.container_port
-    security_groups = [aws_security_group.alb.id]
+    # security_groups = [aws_security_group.alb.id]
+    security_groups = [var.load_balancer_security_group_id]
   }
 
   egress {
@@ -65,10 +66,10 @@ resource "aws_ecs_service" "iaq_api_ecs_service" {
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.group.id
+    target_group_arn = var.load_balancer_target_group_id
     container_name   = "${var.project}-container-definition"
     container_port   = var.container_port
   }
 
-  depends_on = [aws_alb_listener.listener_http]
+  depends_on = [var.load_balancer_listener_http]
 }
