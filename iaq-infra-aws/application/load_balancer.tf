@@ -43,10 +43,12 @@ resource "aws_alb_target_group" "group" {
   target_type = "ip"
 
   # Alter the destination of the health check to be the login page.
+  /*
   health_check {
     path = "/status"
     port = 80
   }
+  */
 
   lifecycle {
     create_before_destroy = true
