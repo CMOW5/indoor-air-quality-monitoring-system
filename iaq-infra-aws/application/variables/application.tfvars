@@ -9,9 +9,15 @@ main_subnets = ["subnet-0d96dd227ef322974", "subnet-05a6beab125fecc1c", "subnet-
 
 allowed_cidr_blocks = ["0.0.0.0/0"]
 
-desired_count = 0
+desired_count = 1
 
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 cpu = 512
 
 memory = 1024
+
+# 8080
+container_port = 8080 
+
+# "cmow5/iaq-api"
+docker_image_id = "354562611480.dkr.ecr.us-east-1.amazonaws.com/iaq-api" 

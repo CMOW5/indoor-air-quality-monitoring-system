@@ -25,3 +25,11 @@ variable "cpu" {
 variable "memory" {
     
 }
+
+variable "container_port" {
+
+}
+
+variable "docker_image_id" {
+    
+}

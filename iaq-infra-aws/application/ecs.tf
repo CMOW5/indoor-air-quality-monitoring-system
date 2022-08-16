@@ -4,8 +4,8 @@ resource "aws_security_group" "iaq_api_task_definition_security_group" {
 
   ingress {
     protocol        = "tcp"
-    from_port       = 8080
-    to_port         = 8080
+    from_port       = var.container_port
+    to_port         = var.container_port
     security_groups = [aws_security_group.alb.id]
   }
 
@@ -23,19 +23,20 @@ resource "aws_ecs_task_definition" "iaq_api_task_definition" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.cpu
   memory                   = var.memory
-
+  #execution_role_arn       = "${data.aws_iam_role.ecs_task_execution_role.arn}"
+  execution_role_arn = "arn:aws:iam::354562611480:role/ecsTaskExecutionRole"
   container_definitions = <<DEFINITION
 [
   {
-    "image": "cmow5/iaq-api",
+    "image": "${var.docker_image_id}",
     "cpu": ${var.cpu},
     "memory": ${var.memory},
     "name":  "${var.project}-container-definition",
     "networkMode": "awsvpc",
     "portMappings": [
       {
-        "containerPort": 8080,
-        "hostPort": 8080
+        "containerPort": ${var.container_port},
+        "hostPort": ${var.container_port}
       }
     ]
   }
@@ -55,16 +56,18 @@ resource "aws_ecs_service" "iaq_api_ecs_service" {
   task_definition = aws_ecs_task_definition.iaq_api_task_definition.arn
   desired_count   = var.desired_count
   launch_type     = "FARGATE"
+  platform_version = "1.3.0"
 
   network_configuration {
     security_groups = [aws_security_group.iaq_api_task_definition_security_group.id]
     subnets         = var.main_subnets
+    assign_public_ip = true
   }
 
   load_balancer {
     target_group_arn = aws_alb_target_group.group.id
     container_name   = "${var.project}-container-definition"
-    container_port   = 8080
+    container_port   = var.container_port
   }
 
   depends_on = [aws_alb_listener.listener_http]
