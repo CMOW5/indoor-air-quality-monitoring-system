@@ -8,6 +8,12 @@ public class MqttConfigs {
 
     private String identityPoolId;
 
+    public MqttConfigs(String endpoint, String awsRegion, String identityPoolId) {
+        this.endpoint = endpoint;
+        this.awsRegion = awsRegion;
+        this.identityPoolId = identityPoolId;
+    }
+
     public MqttConfigs() {
 
     }
