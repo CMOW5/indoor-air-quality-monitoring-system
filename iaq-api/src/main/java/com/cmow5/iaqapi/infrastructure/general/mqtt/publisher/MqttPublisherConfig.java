@@ -17,7 +17,7 @@ import org.springframework.messaging.MessageHandler;
  * Configuration Beans to create an MQTT publisher for topic sensor/temperature
  */
 @Configuration
-@Profile("LOCAL_MQTT_ENABLED")
+@Profile("MQTT")
 public class MqttPublisherConfig {
 
     public static final String MQTT_URL = "tcp://localhost:1884";
