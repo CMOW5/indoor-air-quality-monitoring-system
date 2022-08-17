@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import static com.cmow5.iaqapi.infrastructure.configs.mqtt.repository.inmemory.InMemoryDbMqttConfigsRepository.IN_MEMORY_DB_MQTT_CONFIGS_REPOSITORY_BEAN;
 import static com.cmow5.iaqapi.infrastructure.general.database.inmemory.InMemoryDbConfig.IN_MEMORY_PROFILE;
 
-@Repository(IN_MEMORY_DB_MQTT_CONFIGS_REPOSITORY_BEAN)
-@Profile(IN_MEMORY_PROFILE)
+//@Repository(IN_MEMORY_DB_MQTT_CONFIGS_REPOSITORY_BEAN)
+//@Profile(IN_MEMORY_PROFILE)
 public class InMemoryDbMqttConfigsRepository implements MqttConfigsRepository {
 
     public static final String IN_MEMORY_DB_MQTT_CONFIGS_REPOSITORY_BEAN = "inMemoryDbMqttConfigsRepository";
