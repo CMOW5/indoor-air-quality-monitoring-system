@@ -2,7 +2,6 @@ package com.cmow5.iaqapi.infrastructure.station.web;
 
 import com.cmow5.iaqapi.domain.station.Station;
 import com.cmow5.iaqapi.domain.station.service.StationService;
-import com.cmow5.iaqapi.infrastructure.station.web.dto.StationResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
