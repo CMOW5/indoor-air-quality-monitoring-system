@@ -1,4 +1,4 @@
-package com.cmow5.iaqapi.infrastructure.temperature.repository;
+package com.cmow5.iaqapi.infrastructure.temperature.repository.mongo;
 
 import com.cmow5.iaqapi.domain.temperature.TempSensorDataPoint;
 import com.cmow5.iaqapi.domain.temperature.repository.TempSensorRepository;
@@ -7,14 +7,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
 
-import static com.cmow5.iaqapi.infrastructure.temperature.repository.TempSensorMongoRepository.TEMP_SENSOR_MONGO_REPOSITORY_BEAN;
-import static com.cmow5.iaqapi.infrastructure.general.mongo.MongoConfig.TEST_DB_MONGODB_TEMPLATE_BEAN;
+import static com.cmow5.iaqapi.infrastructure.general.database.mongo.MongoConfig.MONGO_PROFILE;
+import static com.cmow5.iaqapi.infrastructure.temperature.repository.mongo.TempSensorMongoRepository.TEMP_SENSOR_MONGO_REPOSITORY_BEAN;
+import static com.cmow5.iaqapi.infrastructure.general.database.mongo.MongoConfig.TEST_DB_MONGODB_TEMPLATE_BEAN;
 import static com.cmow5.iaqapi.infrastructure.temperature.entity.TempSensorEntity.STATION_ID_FIELD;
 import static com.cmow5.iaqapi.infrastructure.temperature.entity.TempSensorEntity.TIMESTAMP_FIELD;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -24,6 +26,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
  * The mongo repository to store the temperature sensor data into mongo db
  */
 @Repository(TEMP_SENSOR_MONGO_REPOSITORY_BEAN)
+@Profile(MONGO_PROFILE)
 public class TempSensorMongoRepository implements TempSensorRepository {
 
     public static final String TEMP_SENSOR_MONGO_REPOSITORY_BEAN = "tempSensorMongoRepository";

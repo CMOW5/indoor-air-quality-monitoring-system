@@ -7,15 +7,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
 
+import static com.cmow5.iaqapi.infrastructure.general.database.mongo.MongoConfig.MONGO_PROFILE;
 import static com.cmow5.iaqapi.infrastructure.pm25.entity.Pm25SensorEntity.STATION_ID_FIELD;
 import static com.cmow5.iaqapi.infrastructure.pm25.entity.Pm25SensorEntity.TIMESTAMP_FIELD;
-import static com.cmow5.iaqapi.infrastructure.general.mongo.MongoConfig.TEST_DB_MONGODB_TEMPLATE_BEAN;
+import static com.cmow5.iaqapi.infrastructure.general.database.mongo.MongoConfig.TEST_DB_MONGODB_TEMPLATE_BEAN;
 import static com.cmow5.iaqapi.infrastructure.pm25.repository.Pm25SensorMongoRepository.PM25_SENSOR_MONGO_REPOSITORY_BEAN;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -24,6 +26,7 @@ import static org.springframework.data.mongodb.core.query.Query.query;
  * The mongo repository to store the temperature sensor data into mongo db
  */
 @Repository(PM25_SENSOR_MONGO_REPOSITORY_BEAN)
+@Profile(MONGO_PROFILE)
 public class Pm25SensorMongoRepository implements Pm25SensorRepository {
 
     public static final String PM25_SENSOR_MONGO_REPOSITORY_BEAN = "pm25SensorMongoRepository";
