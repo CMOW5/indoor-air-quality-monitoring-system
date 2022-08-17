@@ -15,6 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<aws.sdk.version>2.17.254</aws.sdk.version>
 	</properties>
 
 	<dependencyManagement>
@@ -59,9 +60,29 @@
 
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>aws-sdk-java</artifactId>
-			<version>2.17.254</version>
+			<artifactId>timestreamquery</artifactId>
+			<version>${aws.sdk.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>timestreamwrite</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>ssm</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+
+		<!--
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>aws-sdk-java</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+		-->
 
 		<dependency>
 			<groupId>com.google.guava</groupId>
