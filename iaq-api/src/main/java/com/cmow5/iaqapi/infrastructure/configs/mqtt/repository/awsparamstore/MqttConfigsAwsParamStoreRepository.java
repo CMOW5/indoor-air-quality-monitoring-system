@@ -29,7 +29,7 @@ public class MqttConfigsAwsParamStoreRepository implements MqttConfigsRepository
     private final SsmClient ssmClient;
     private final String mqttConfigsKey;
 
-    public MqttConfigsAwsParamStoreRepository(SsmClient ssmClient, @Value("${mqtt.configs.key}") String mqttConfigsKey) {
+    public MqttConfigsAwsParamStoreRepository(SsmClient ssmClient, @Value("${mqtt.paramstore.configs.key}") String mqttConfigsKey) {
         this.ssmClient = ssmClient;
         this.mqttConfigsKey = mqttConfigsKey;
     }
@@ -45,8 +45,7 @@ public class MqttConfigsAwsParamStoreRepository implements MqttConfigsRepository
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = null;
-            jsonNode = mapper.readTree(parameterResponse.parameter().value());
+            JsonNode jsonNode = mapper.readTree(parameterResponse.parameter().value());
             String endpoint = jsonNode.get(ENDPOINT_JSON_KEY).textValue();
             String awsRegion = jsonNode.get(AWS_REGION_JSON_KEY).textValue();
             String identityPoolId = jsonNode.get(IDENTITY_POOL_ID_JSON_KEY).textValue();

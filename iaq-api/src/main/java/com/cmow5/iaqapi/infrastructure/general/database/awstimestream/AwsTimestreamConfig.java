@@ -16,6 +16,8 @@ public class AwsTimestreamConfig {
 
     public static final String AWS_TIMESTREAM_QUERY_CLIENT_BEAN = "timestreamQueryClient";
 
+    public static final String DATABASE = "monitoring";
+
     @Bean(AWS_TIMESTREAM_QUERY_CLIENT_BEAN)
     public TimestreamQueryClient timestreamQueryClient() {
         return TimestreamQueryClient.builder()

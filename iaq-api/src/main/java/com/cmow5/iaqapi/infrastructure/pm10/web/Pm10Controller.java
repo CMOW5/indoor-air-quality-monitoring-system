@@ -27,9 +27,10 @@ public class Pm10Controller {
     @GetMapping("/station/{stationId}/metric/pm10/historic")
     public SensorHistoricDataResponse<Integer> getStationPm25BetweenDates(@PathVariable String stationId,
                                                                           @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
-                                                                          @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end)
+                                                                          @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end,
+                                                                          @RequestParam(value = "sort", defaultValue = "DESC") String sort)
     {
-        List<Pm10DataPoint> dataPoints = this.pm10Service.getPm10BetweenDates(stationId, start, end);
+        List<Pm10DataPoint> dataPoints = this.pm10Service.getPm10BetweenDates(stationId, start, end, sort);
         return new SensorHistoricDataResponse<>(stationId, converter.convert(dataPoints));
     }
 }
