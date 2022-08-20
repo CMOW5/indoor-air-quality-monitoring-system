@@ -14,8 +14,8 @@ public class Pm10Service {
         this.pm10SensorRepository = pm10SensorRepository;
     }
 
-    public List<Pm10DataPoint> getPm10BetweenDates(String stationId, Instant start, Instant end) {
-        return this.pm10SensorRepository.findBetweenDates(stationId, start, end);
+    public List<Pm10DataPoint> getPm10BetweenDates(String stationId, Instant start, Instant end, String sort) {
+        return this.pm10SensorRepository.findBetweenDates(stationId, start, end, sort);
     }
 
     public void save(Pm10DataPoint dataPoint) {

@@ -1,7 +1,6 @@
 package com.cmow5.iaqapi.infrastructure.pm25.mqtt;
 
 import com.cmow5.iaqapi.domain.pm25.Pm25SensorDataPoint;
-import com.cmow5.iaqapi.infrastructure.pm25.entity.Pm25SensorEntity;
 import com.cmow5.iaqapi.domain.pm25.service.Pm25SensorService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

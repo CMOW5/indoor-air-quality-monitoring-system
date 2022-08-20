@@ -27,9 +27,10 @@ public class VocsController {
     @GetMapping("/station/{stationId}/metric/vocs/historic")
     public SensorHistoricDataResponse<Integer> getStationVocsBetweenDates(@PathVariable String stationId,
                                                                           @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
-                                                                          @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end)
+                                                                          @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end,
+                                                                          @RequestParam(value = "sort", defaultValue = "DESC") String sort)
     {
-        List<VocsDataPoint> dataPoints = this.vocsService.getVocsBetweenDates(stationId, start, end);
+        List<VocsDataPoint> dataPoints = this.vocsService.getVocsBetweenDates(stationId, start, end, sort);
         return new SensorHistoricDataResponse<>(stationId, converter.convert(dataPoints));
     }
 }

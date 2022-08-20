@@ -9,6 +9,7 @@ from application.infrastructure.app.hardware_registry.hardware_registry import H
 from application.infrastructure.app.sensor_process.sensor_process_factory import SensorProcessFactory
 from application.infrastructure.mqtt.config.mqtt_config import MqttConfig
 from application.infrastructure.mqtt.sender.aws.aws_mqtt_sender import AwsMqttSender
+from application.infrastructure.mqtt.sender.fake.fake_mqtt_sender import FakeMqttSender
 from application.infrastructure.mqtt.sender.generic.generic_mqtt_sender import MqttSender
 from application.infrastructure.queue.circular_priority_sensor_queue import CircularPrioritySensorQueue
 
@@ -33,8 +34,8 @@ class App:
         sensor_queue = CircularPrioritySensorQueue()
         temperature_mqtt_config = MqttConfig(app_config=self.app_config, topic=self.app_config.temperature_mqtt_topic)
         #temperature_sensor_sender = FakeMqttSender(temperature_mqtt_config)
-        temperature_sensor_sender = MqttSender(temperature_mqtt_config)
-        #temperature_sensor_sender = AwsMqttSender(temperature_mqtt_config)
+        #temperature_sensor_sender = MqttSender(temperature_mqtt_config)
+        temperature_sensor_sender = AwsMqttSender(temperature_mqtt_config)
 
         SensorProcessFactory(sensor, sensor_queue, temperature_sensor_sender,
                              self.app_config.temperature_producer_time,
@@ -45,8 +46,8 @@ class App:
         sensor_queue = CircularPrioritySensorQueue()
         humidity_mqtt_config = MqttConfig(app_config=self.app_config, topic=self.app_config.humidity_mqtt_topic)
         #humidity_sensor_sender = FakeMqttSender(humidity_mqtt_config)
-        humidity_sensor_sender = MqttSender(humidity_mqtt_config)
-        #humidity_sensor_sender = AwsMqttSender(humidity_mqtt_config)
+        #humidity_sensor_sender = MqttSender(humidity_mqtt_config)
+        humidity_sensor_sender = AwsMqttSender(humidity_mqtt_config)
 
         SensorProcessFactory(sensor, sensor_queue, humidity_sensor_sender,
                              self.app_config.humidity_producer_time, self.app_config.humidity_consumer_time).create()
@@ -56,8 +57,8 @@ class App:
         sensor_queue = CircularPrioritySensorQueue()
         pm25_mqtt_config = MqttConfig(app_config=self.app_config, topic=self.app_config.pm25_mqtt_topic)
         #pm25_sensor_sender = FakeMqttSender(pm25_mqtt_config)
-        pm25_sensor_sender = MqttSender(pm25_mqtt_config)
-        #pm25_sensor_sender = AwsMqttSender(pm25_mqtt_config)
+        #pm25_sensor_sender = MqttSender(pm25_mqtt_config)
+        pm25_sensor_sender = AwsMqttSender(pm25_mqtt_config)
 
         SensorProcessFactory(sensor, sensor_queue, pm25_sensor_sender,
                              self.app_config.pm25_producer_time, self.app_config.pm25_consumer_time).create()
@@ -67,8 +68,8 @@ class App:
         sensor_queue = CircularPrioritySensorQueue()
         pm10_mqtt_config = MqttConfig(app_config=self.app_config, topic=self.app_config.pm10_mqtt_topic)
         #pm10_sensor_sender = FakeMqttSender(pm10_mqtt_config)
-        pm10_sensor_sender = MqttSender(pm10_mqtt_config)
-        #pm10_sensor_sender = AwsMqttSender(pm10_mqtt_config)
+        #pm10_sensor_sender = MqttSender(pm10_mqtt_config)
+        pm10_sensor_sender = AwsMqttSender(pm10_mqtt_config)
 
         SensorProcessFactory(sensor, sensor_queue, pm10_sensor_sender,
                              self.app_config.pm10_producer_time, self.app_config.pm10_consumer_time).create()
@@ -78,8 +79,8 @@ class App:
         sensor_queue = CircularPrioritySensorQueue()
         co2_mqtt_config = MqttConfig(app_config=self.app_config, topic=self.app_config.co2_mqtt_topic)
         #co2_sensor_sender = FakeMqttSender(co2_mqtt_config)
-        co2_sensor_sender = MqttSender(co2_mqtt_config)
-        #co2_sensor_sender = AwsMqttSender(co2_mqtt_config)
+        #co2_sensor_sender = MqttSender(co2_mqtt_config)
+        co2_sensor_sender = AwsMqttSender(co2_mqtt_config)
 
         SensorProcessFactory(sensor, sensor_queue, co2_sensor_sender,
                              self.app_config.co2_producer_time, self.app_config.co2_consumer_time).create()
@@ -89,8 +90,8 @@ class App:
         sensor_queue = CircularPrioritySensorQueue()
         vocs_mqtt_config = MqttConfig(app_config=self.app_config, topic=self.app_config.vocs_mqtt_topic)
         #vocs_sensor_sender = FakeMqttSender(vocs_mqtt_config)
-        vocs_sensor_sender = MqttSender(vocs_mqtt_config)
-        #vocs_sensor_sender = AwsMqttSender(vocs_mqtt_config)
+        #vocs_sensor_sender = MqttSender(vocs_mqtt_config)
+        vocs_sensor_sender = AwsMqttSender(vocs_mqtt_config)
 
         SensorProcessFactory(sensor, sensor_queue, vocs_sensor_sender,
                              self.app_config.vocs_producer_time, self.app_config.vocs_consumer_time).create()

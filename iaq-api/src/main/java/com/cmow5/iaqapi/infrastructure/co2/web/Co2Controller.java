@@ -27,9 +27,10 @@ public class Co2Controller {
     @GetMapping("/station/{stationId}/metric/co2/historic")
     public SensorHistoricDataResponse<Integer> getStationCo2BetweenDates(@PathVariable String stationId,
                                                                           @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
-                                                                          @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end)
+                                                                          @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end,
+                                                                          @RequestParam(value = "sort", defaultValue = "DESC") String sort)
     {
-        List<Co2DataPoint> dataPoints = this.co2Service.getCo2BetweenDates(stationId, start, end);
+        List<Co2DataPoint> dataPoints = this.co2Service.getCo2BetweenDates(stationId, start, end, sort);
         return new SensorHistoricDataResponse<>(stationId, converter.convert(dataPoints));
     }
 }

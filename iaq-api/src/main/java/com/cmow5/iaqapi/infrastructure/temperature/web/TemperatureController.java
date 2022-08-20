@@ -33,9 +33,10 @@ public class TemperatureController {
     @GetMapping("/station/{stationId}/metric/temperature/historic")
     public SensorHistoricDataResponse<Integer> getStationTemperatureBetweenDates(@PathVariable String stationId,
                                                                                  @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
-                                                                                 @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end)
+                                                                                 @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end,
+                                                                                 @RequestParam(value = "sort", defaultValue = "DESC") String sort)
     {
-        List<TempSensorDataPoint> dataPoints = tempSensorService.getTemperatureBetweenDates(stationId, start, end);
+        List<TempSensorDataPoint> dataPoints = tempSensorService.getTemperatureBetweenDates(stationId, start, end, sort);
         return new SensorHistoricDataResponse<>(stationId, converter.convert(dataPoints));
     }
 }

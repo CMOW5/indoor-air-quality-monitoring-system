@@ -15,8 +15,8 @@ public class Co2Service {
         this.co2Repository = co2Repository;
     }
 
-    public List<Co2DataPoint> getCo2BetweenDates(String stationId, Instant start, Instant end) {
-        return this.co2Repository.findBetweenDates(stationId, start, end);
+    public List<Co2DataPoint> getCo2BetweenDates(String stationId, Instant start, Instant end, String sort) {
+        return this.co2Repository.findBetweenDates(stationId, start, end, sort);
     }
 
     public void save(Co2DataPoint dataPoint) {
