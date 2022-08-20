@@ -15,8 +15,8 @@ public class HumidityService {
         this.co2Repository = co2Repository;
     }
 
-    public List<HumidityDataPoint> getHumidityBetweenDates(String stationId, Instant start, Instant end) {
-        return this.co2Repository.findBetweenDates(stationId, start, end);
+    public List<HumidityDataPoint> getHumidityBetweenDates(String stationId, Instant start, Instant end, String sort) {
+        return this.co2Repository.findBetweenDates(stationId, start, end, sort);
     }
 
     public void save(HumidityDataPoint dataPoint) {

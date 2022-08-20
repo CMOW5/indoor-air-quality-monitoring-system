@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface Pm10Repository {
 
-    List<Pm10DataPoint> findBetweenDates(String stationId, Instant start, Instant end);
+    List<Pm10DataPoint> findBetweenDates(String stationId, Instant start, Instant end, String sort);
 
     void save(Pm10DataPoint dataPoint);
 }

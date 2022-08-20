@@ -15,8 +15,8 @@ public class TempSensorService {
         this.tempSensorRepository = tempSensorRepository;
     }
 
-    public List<TempSensorDataPoint> getTemperatureBetweenDates(String stationId, Instant start, Instant end) {
-        return this.tempSensorRepository.findBetweenDates(stationId, start, end);
+    public List<TempSensorDataPoint> getTemperatureBetweenDates(String stationId, Instant start, Instant end, String sort) {
+        return this.tempSensorRepository.findBetweenDates(stationId, start, end, sort);
     }
 
     public TempSensorDataPoint save(TempSensorDataPoint dataPoint) {

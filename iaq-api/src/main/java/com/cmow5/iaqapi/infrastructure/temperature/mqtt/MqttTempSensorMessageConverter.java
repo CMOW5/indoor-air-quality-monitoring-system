@@ -1,8 +1,7 @@
 package com.cmow5.iaqapi.infrastructure.temperature.mqtt;
 
 import com.cmow5.iaqapi.domain.temperature.TempSensorDataPoint;
-import com.cmow5.iaqapi.infrastructure.temperature.entity.TempSensorEntity;
-import com.cmow5.iaqapi.infrastructure.temperature.entity.TempSensorEntityBuilder;
+import com.cmow5.iaqapi.infrastructure.temperature.mongo.entity.TempSensorEntityBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

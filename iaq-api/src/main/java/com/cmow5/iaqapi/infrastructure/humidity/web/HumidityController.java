@@ -26,9 +26,10 @@ public class HumidityController {
     @GetMapping("/station/{stationId}/metric/humidity/historic")
     public SensorHistoricDataResponse<Integer> getStationHumidityBetweenDates(@PathVariable String stationId,
                                                                          @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
-                                                                         @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end)
+                                                                         @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end,
+                                                                         @RequestParam(value = "sort", defaultValue = "DESC") String sort)
     {
-        List<HumidityDataPoint> dataPoints = this.humidityService.getHumidityBetweenDates(stationId, start, end);
+        List<HumidityDataPoint> dataPoints = this.humidityService.getHumidityBetweenDates(stationId, start, end, sort);
         return new SensorHistoricDataResponse<>(stationId, converter.convert(dataPoints));
     }
 }

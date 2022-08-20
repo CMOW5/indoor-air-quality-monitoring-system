@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TempSensorRepository {
 
-    List<TempSensorDataPoint> findBetweenDates(String stationId, Instant start, Instant end);
+    List<TempSensorDataPoint> findBetweenDates(String stationId, Instant start, Instant end, String sort);
 
     TempSensorDataPoint save(TempSensorDataPoint dataPoint);
 }

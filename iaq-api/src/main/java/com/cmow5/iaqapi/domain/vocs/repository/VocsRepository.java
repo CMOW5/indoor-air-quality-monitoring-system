@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface VocsRepository {
 
-    List<VocsDataPoint> findBetweenDates(String stationId, Instant start, Instant end);
+    List<VocsDataPoint> findBetweenDates(String stationId, Instant start, Instant end, String sort);
 
     void save(VocsDataPoint dataPoint);
 }

@@ -14,6 +14,7 @@ export class SensorHistoricDataService {
     let params = new HttpParams();
     params = params.set('start', start.toISOString());
     params = params.set('end', end.toISOString());
+    params = params.set('sort', 'ASC');
     const url = environment.buildHistoricUrl(station, metric); 
 
     return new Observable((observer) => {
