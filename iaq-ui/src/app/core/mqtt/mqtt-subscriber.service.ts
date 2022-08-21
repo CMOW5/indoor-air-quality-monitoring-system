@@ -42,31 +42,32 @@ export class MqttSubscriberService {
 
   initMqtt() {
     this.mqttConfig.getMqttConfigs().subscribe((config: MqttConfigsDto) => {
-        /*
+        
         Amplify.configure({
           Auth: {
-            identityPoolId: this.mqttConfig.getIdentityPoolId(),
-            region: this.mqttConfig.getMqttAwsRegion(),
+            identityPoolId: config.identityPoolId,
+            region: config.awsRegion,
             //userPoolId: APP_USER_POOL_ID,
             //userPoolWebClientId: APP_USER_POOL_WEB_CLIENT_ID
           }
         });
-        */
+        
 
         // AWS IoT Provider
-        /*
+        
         Amplify.addPluggable(new AWSIoTProvider({
-          aws_pubsub_region: this.mqttConfig.getMqttAwsRegion(),
-          aws_pubsub_endpoint: this.mqttConfig.getMqttEndpoint(),
+          aws_pubsub_region: config.awsRegion,
+          aws_pubsub_endpoint: config.endpoint,
         }));
-        */  
-
+          
+      /*  
       Amplify.addPluggable(new MqttOverWSProvider({
         //aws_pubsub_endpoint: 'wss://localhost:9001/mqtt',
         aws_pubsub_endpoint: config.endpoint,
         // disable SSL
         aws_appsync_dangerously_connect_to_http_endpoint_for_testing: true
         }));
+      */
     })
   }
 

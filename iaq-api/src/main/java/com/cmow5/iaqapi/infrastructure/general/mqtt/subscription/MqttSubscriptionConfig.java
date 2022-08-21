@@ -23,7 +23,7 @@ import org.springframework.messaging.support.GenericMessage;
  * Configuration Beans to create an MQTT subscription for topic sensor/temperature
  */
 @Configuration
-@Profile("LOCAL_MQTT_ENABLED")
+@Profile("MQTT")
 public class MqttSubscriptionConfig {
 
     public static final String MQTT_URL = "tcp://localhost:1884";

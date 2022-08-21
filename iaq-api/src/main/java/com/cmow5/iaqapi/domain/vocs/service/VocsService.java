@@ -14,8 +14,8 @@ public class VocsService {
         this.vocsRepository = tempSensorRepository;
     }
 
-    public List<VocsDataPoint> getVocsBetweenDates(String stationId, Instant start, Instant end) {
-        return this.vocsRepository.findBetweenDates(stationId, start, end);
+    public List<VocsDataPoint> getVocsBetweenDates(String stationId, Instant start, Instant end, String sort) {
+        return this.vocsRepository.findBetweenDates(stationId, start, end, sort);
     }
 
     public void save(VocsDataPoint dataPoint) {

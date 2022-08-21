@@ -1,7 +1,6 @@
 package com.cmow5.iaqapi.infrastructure.temperature.mqtt;
 
 import com.cmow5.iaqapi.domain.temperature.TempSensorDataPoint;
-import com.cmow5.iaqapi.infrastructure.temperature.entity.TempSensorEntity;
 import com.cmow5.iaqapi.domain.temperature.service.TempSensorService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

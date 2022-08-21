@@ -14,8 +14,8 @@ public class Pm25SensorService {
         this.pm25SensorRepository = pm25SensorRepository;
     }
 
-    public List<Pm25SensorDataPoint> getPm25BetweenDates(String stationId, Instant start, Instant end) {
-        return this.pm25SensorRepository.findBetweenDates(stationId, start, end);
+    public List<Pm25SensorDataPoint> getPm25BetweenDates(String stationId, Instant start, Instant end, String sort) {
+        return this.pm25SensorRepository.findBetweenDates(stationId, start, end, sort);
     }
 
     public void save(Pm25SensorDataPoint dataPoint) {
