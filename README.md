@@ -1,5 +1,5 @@
 
-# Indoor air quality monitoring system based on a Rasberry Pi board and AWS IoT Core
+# Indoor air quality monitoring system based on a Raspberry Pi board and AWS IoT Core
 
 The raspberry pi reads the data from the sensors (PM2.5, PM10, co2, VOCs, temp, and humidity) and sends the data over the internet using the MQTT protocol.
 The MQTT broker (AWS IoT Core) manages the MQTT connections and security so other clients can connect to the same
@@ -42,17 +42,20 @@ the source code for the iqa-station is split into 2 categories: domain and infra
 
 ### Domain
 
-The domain code contains the concepts explained in the [Sensor process section](#sensor-process). We have a queue, a sensor, etc. But we don't care about the actual implementation. This is, we don't care if it is a temperature sensor or if the sensor is an analog or digital sensor. In this layer, we only have a *thing* called a sensor from where we can read data from and we have a *queue* in which we can put the data.
+The domain code contains the concepts explained in the [Sensor process section](#sensor-process). We have a queue, a sensor, etc. but we don't care about the actual implementation. This is, we don't care if it is a temperature sensor or if the sensor is an analog or digital sensor. In this layer, we only have a *thing* called a sensor from where we can read data and we have a *queue* in which we can put the data.
 
-This layer consists mostly of interfaces. Here we only care about the high level behavior and not about the *how*. For example: we're reading the data from a sensor but we don't care about how we are doing it. Are we reading the sensor over I2C or SPI? is it an analog sensor? we don't care about that here. As far a we are concerned, the sensor is just a black box and we don't want to pollute our domain with infrastructure specifics (like I2C, SPI, UART, AD/C libraries) 
+This layer consists mostly of interfaces because we only care about the high level behavior and not about the *how*. For example: we're reading the data from a sensor but we don't care about how we are doing it. Are we reading the sensor over I2C or SPI? is it an analog sensor? we don't care about that here. As far a we are concerned, the sensor is just a black box and we don't want to pollute our domain with infrastructure specifics (like I2C, SPI, UART, AD/C libraries) 
 
 ### Infrastructure
 
-The domain concept sounds great. We're reading from a *thing* called sensor, we're putting the sensor data into a *queue*, and then
-the data is sent by a *thing* called sender. But at some point we should get our hands dirty with the actual implementations. This is where the infrastructure layer comes into place. Here, we define the actual implementations that are being passed to the domain layer.
-If we're using a sensor that interfaces over I2C, then we write the actual code using the appropiate libraries and so on. If in a future we decide to change to another sensor which interfaces over SPI, then we only change the implementation without changing our domain code.
-This also makes it easier to unit test. For example, you can create a fake implementation that's only reading random generated values rather than using an actual sensor. This also allow us to make our code portable across different platforms. You only need to bootstrap the right infrastructure depending on the platform you targeting to (raspberry-pi, raspberry-pi pico, or anything that can execute python code).
-As a good example of the usage of this pattern/architecture, we're providing two different infrastructure implementations: one based on a raspberry pi (with actual I2C and UART sensors connected to it) and one based on a generic linux pc (with a bunch of fake/software sensors for testing purposes)
+The domain concept sounds great: We're reading from a *thing* called sensor, we're putting the sensor data into a *queue*, and then
+the data is sent by a *thing* called sender, but at some point we should get our hands dirty with the actual implementations. This is where the infrastructure layer comes into place. Here, we define the actual implementations that are being passed to the domain layer.
+If we're using a sensor that interfaces over I2C, then we write the actual code using the appropiate libraries or such. 
+If in a future we decide to change to another sensor which interfaces over SPI, then we only change the implementation without changing our domain code.
+
+This makes the code easier to unit test. For example, you can create a fake implementation that's only reading random generated values rather than using an actual sensor. This also allow us to make our code portable across different platforms since you only need to bootstrap the right infrastructure depending on the platform you are targeting to (raspberry-pi, raspberry-pi pico, or anything that can execute python code).
+
+We're providing two different infrastructure implementations as a good example of the usage of this pattern/architecture: one implementation is based on a raspberry pi (with actual I2C and UART sensors connected to it) and the other is based on a generic linux pc (with a bunch of fake/software sensors for testing purposes)
 
 
 ### Running the station code
