@@ -12,9 +12,9 @@ allowed_cidr_blocks = ["0.0.0.0/0"]
 desired_count = 1
 
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
-cpu = 512
+cpu = 256
 
-memory = 1024
+memory = 512
 
 container_port = 8080 
 
