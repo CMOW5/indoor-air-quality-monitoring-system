@@ -4,4 +4,5 @@ paho-mqtt == 1.6.1
 Adafruit-Blinka == 7.2.0
 adafruit-circuitpython-bme280 == 2.6.13
 adafruit-circuitpython-pm25 == 2.1.9
-adafruit-circuitpython-sgp30==3.0.1
+adafruit-circuitpython-sgp30 == 3.0.1
+awsiotsdk == 1.11.3

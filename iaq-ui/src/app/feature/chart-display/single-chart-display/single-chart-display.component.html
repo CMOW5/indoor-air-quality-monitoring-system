@@ -1,0 +1,13 @@
+<div class="chart-container">
+    <div class="chart-header" [style.background-color]="metric.metadata.color">
+        <span>{{metric.name}}</span>
+    </div>
+    <canvas style="border: 1px solid #d3d3d3"
+        baseChart
+        [datasets]="datasets"
+        [options]="chartOptions"
+        [type]="'line'"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)">
+    </canvas>
+</div>
