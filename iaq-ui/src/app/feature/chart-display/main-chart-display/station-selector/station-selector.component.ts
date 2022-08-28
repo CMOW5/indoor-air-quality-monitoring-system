@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { StationService } from 'src/app/core/station/station.service';
 import { Station } from '../../../../core/station/station.interface';
 
@@ -10,7 +10,7 @@ import { Station } from '../../../../core/station/station.interface';
 })
 export class StationSelectorComponent implements OnInit {
 
-  stationForm = new FormControl();
+  stationForm = new FormControl('', [Validators.required]);
 
   stations: Station[] = []; 
 
@@ -34,7 +34,13 @@ export class StationSelectorComponent implements OnInit {
     })
   }
 
+  get isValid() {
+    return this.stationForm.valid;
+  }
+
   emitOnStationMetricSelected() {
+    if (!this.isValid) return;
+    
     this.stationMetricSelected.emit(this.stationForm.value);
   }
 
