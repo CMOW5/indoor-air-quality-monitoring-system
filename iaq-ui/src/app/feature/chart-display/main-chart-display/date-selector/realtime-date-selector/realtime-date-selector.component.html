@@ -1,30 +1,44 @@
-<form class="example-form">
-    <mat-form-field class="example-full-width" appearance="outline">
+<form [formGroup]="realtimeForm">
+    <mat-form-field appearance="outline">
+      
       <mat-label>Time</mat-label>
-      <input type="number" matInput 
-             [formControl]="timeFormControl"
-             placeholder="Ex. pat@example.com">
-      <mat-hint>Errors appear instantly!</mat-hint>
-      <mat-error *ngIf="timeFormControl.hasError('email') && !timeFormControl.hasError('required')">
-        Please enter a valid email address
+      
+      <input  type="number"
+              min="1" 
+              matInput 
+              formControlName="timeFormControl"
+              required>
+
+      <mat-hint>Enter a time value</mat-hint>
+        
+      <mat-error *ngIf="timeFormControl?.hasError('min') && !timeFormControl?.hasError('required')">
+        Please enter a number greater than 0
       </mat-error>
-      <mat-error *ngIf="timeFormControl.hasError('required')">
-        Email is <strong>required</strong>
+
+      <mat-error *ngIf="timeFormControl?.hasError('required')">
+        Time is <strong>required</strong>
       </mat-error>
+     
     </mat-form-field>
 
     <span style="margin: 15px;">
+
         <mat-form-field appearance="outline">
+
           <mat-label>Unit</mat-label>
-          <mat-select [formControl]="timeTypeFormControl" required>
-            <mat-option>--</mat-option>
+
+          <mat-select formControlName="timeUnitFormControl" required>
             <mat-option *ngFor="let type of realTimeTypes" [value]="type">
               {{type}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="timeTypeFormControl.hasError('required')">Please choose a metric</mat-error>
-          <mat-hint>{{timeTypeFormControl.value?.description}}</mat-hint>
+          
+          <mat-error *ngIf="timeUnitFormControl?.hasError('required')">Please choose a unit</mat-error>
+          
+          <mat-hint>Select a time unit</mat-hint>
+           
         </mat-form-field>
+
     </span>
 </form>
 
