@@ -25,10 +25,17 @@ export class HistoricDateSelectorComponent implements OnInit {
   }
 
   emitOnTimeSelected() {
+    if (!this.isValid) return;
+
     this.timeSelected.emit({
       ...this.dateRangeForm.value,
       realtime: false
     });
+  }
+
+  get isValid() {
+    // todo
+    return true;
   }
 
 }
