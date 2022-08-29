@@ -13,11 +13,13 @@ import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
+import static com.cmow5.iaqapi.infrastructure.general.mqtt.subscription.MqttSubscriptionConfig.MQTT_PROFILE;
+
 /**
  * Configuration Beans to create an MQTT publisher for topic sensor/temperature
  */
 @Configuration
-@Profile("MQTT")
+@Profile(MQTT_PROFILE)
 public class MqttPublisherConfig {
 
     public static final String MQTT_URL = "tcp://localhost:1884";

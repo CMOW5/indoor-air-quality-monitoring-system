@@ -19,12 +19,16 @@ import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.GenericMessage;
 
+import static com.cmow5.iaqapi.infrastructure.general.mqtt.subscription.MqttSubscriptionConfig.MQTT_PROFILE;
+
 /**
  * Configuration Beans to create an MQTT subscription for topic sensor/temperature
  */
 @Configuration
-@Profile("MQTT")
+@Profile(MQTT_PROFILE)
 public class MqttSubscriptionConfig {
+
+    public static final String MQTT_PROFILE = "mqtt";
 
     public static final String MQTT_URL = "tcp://localhost:1884";
 
