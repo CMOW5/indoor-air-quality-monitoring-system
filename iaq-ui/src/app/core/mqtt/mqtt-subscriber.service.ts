@@ -5,6 +5,7 @@ import { Amplify } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
 import { MqttOverWSProvider } from "@aws-amplify/pubsub/lib/Providers";
 import { MqttConfigsDto, MqttConfigService } from './mqtt-config.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -42,33 +43,41 @@ export class MqttSubscriberService {
 
   initMqtt() {
     this.mqttConfig.getMqttConfigs().subscribe((config: MqttConfigsDto) => {
-        
-        Amplify.configure({
-          Auth: {
-            identityPoolId: config.identityPoolId,
-            region: config.awsRegion,
-            //userPoolId: APP_USER_POOL_ID,
-            //userPoolWebClientId: APP_USER_POOL_WEB_CLIENT_ID
-          }
-        });
-        
+      
+      if (environment.localMqtt) {
+        this.initLocalMqtt(config);
+      } else {
+        this.initRealMqtt(config);
+      }
 
-        // AWS IoT Provider
-        
-        Amplify.addPluggable(new AWSIoTProvider({
-          aws_pubsub_region: config.awsRegion,
-          aws_pubsub_endpoint: config.endpoint,
-        }));
-          
-      /*  
-      Amplify.addPluggable(new MqttOverWSProvider({
-        //aws_pubsub_endpoint: 'wss://localhost:9001/mqtt',
-        aws_pubsub_endpoint: config.endpoint,
-        // disable SSL
-        aws_appsync_dangerously_connect_to_http_endpoint_for_testing: true
-        }));
-      */
-    })
+    });
+  }
+
+  initLocalMqtt(config: MqttConfigsDto) {
+    Amplify.addPluggable(new MqttOverWSProvider({
+      //aws_pubsub_endpoint: 'wss://localhost:9001/mqtt',
+      aws_pubsub_endpoint: config.endpoint,
+      // disable SSL
+      aws_appsync_dangerously_connect_to_http_endpoint_for_testing: true
+      }));
+  }
+
+  initRealMqtt(config: MqttConfigsDto) {
+    Amplify.configure({
+      Auth: {
+        identityPoolId: config.identityPoolId,
+        region: config.awsRegion,
+        //userPoolId: APP_USER_POOL_ID,
+        //userPoolWebClientId: APP_USER_POOL_WEB_CLIENT_ID
+      }
+    });
+    
+
+    // AWS IoT Provider
+    Amplify.addPluggable(new AWSIoTProvider({
+      aws_pubsub_region: config.awsRegion,
+      aws_pubsub_endpoint: config.endpoint,
+    }));
   }
 
   // todo: type this

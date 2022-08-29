@@ -36,5 +36,5 @@ app.loop_forever()
 # python3 main.py aws-iot-core raspberry-pi raspberry-pi
 
 # raspberry-pi with real sensors with blackhole
-# python3 main.py aws-iot-core black-hole raspberry-pi
+# python3 main.py black-hole raspberry-pi raspberry-pi
 
