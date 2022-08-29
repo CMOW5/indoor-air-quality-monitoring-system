@@ -25,5 +25,16 @@ app.setup()
 app.loop_forever()
 
 # python3 main.py --help
+
+# fake sensors with local mosquitto
 # python3 main.py local-mqtt generic-linux generic-local-pc
+
+# fake sensors with aws-iot-core
+# python3 main.py aws-iot-core generic-linux generic-pc
+
+# raspberry-pi with real sensors with aws-iot-core
+# python3 main.py aws-iot-core raspberry-pi raspberry-pi
+
+# raspberry-pi with real sensors with blackhole
+# python3 main.py aws-iot-core black-hole raspberry-pi
 
