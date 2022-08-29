@@ -60,7 +60,7 @@ public class InMemoryDbMetricRepository implements MetricRepository {
 
     @Override
     public List<Metric> findAll() {
-        log.info("getting this from inmemory :)");
+        log.info("getting metrics from inmemory");
         return HARDCODED_METRICS;
     }
 }

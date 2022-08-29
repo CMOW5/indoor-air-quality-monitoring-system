@@ -65,6 +65,20 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "dev_aws_iot_core": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev_aws_iot_core.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -77,6 +91,9 @@
             },
             "development": {
               "browserTarget": "client-ui:build:development"
+            },
+            "dev_aws_iot_core": {
+              "browserTarget": "client-ui:build:dev_aws_iot_core"
             }
           },
           "defaultConfiguration": "development"
