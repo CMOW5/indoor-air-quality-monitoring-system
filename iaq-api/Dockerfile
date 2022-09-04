@@ -1,7 +1,9 @@
 FROM amazoncorretto:11
-VOLUME /tmp
+#VOLUME /tmp
+WORKDIR /app
+COPY run.sh /app
 COPY target/*.jar app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["sh", "/app/run.sh"]
 
 # build with
 # docker build -t cmow5/iaq-api .
