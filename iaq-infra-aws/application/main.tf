@@ -17,7 +17,6 @@ module "api_ecs_service" {
   main_vpc_id = var.main_vpc_id
   main_subnets = var.main_subnets
   load_balancer_security_group_id = module.api_load_balancer.load_balancer_security_group_id
-  load_balancer_target_group_http_id = module.api_load_balancer.load_balancer_target_group_http_80_id
   load_balancer_target_group_https_id = module.api_load_balancer.load_balancer_target_group_https_443_id
   load_balancer_listener_http = module.api_load_balancer.load_balancer_listener_http
   load_balancer_listener_https = module.api_load_balancer.load_balancer_listener_https

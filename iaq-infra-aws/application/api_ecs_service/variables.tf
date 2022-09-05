@@ -13,10 +13,6 @@ variable "load_balancer_security_group_id" {
 
 }
 
-variable "load_balancer_target_group_http_id" {
-    
-}
-
 variable "load_balancer_target_group_https_id" {
     
 }

@@ -81,12 +81,6 @@ resource "aws_ecs_service" "iaq_api_ecs_service" {
   }
 
   load_balancer {
-    target_group_arn = var.load_balancer_target_group_http_id
-    container_name   = "${var.project}-container-definition"
-    container_port   = var.container_port
-  }
-
-  load_balancer {
     target_group_arn = var.load_balancer_target_group_https_id
     container_name   = "${var.project}-container-definition"
     container_port   = var.container_port

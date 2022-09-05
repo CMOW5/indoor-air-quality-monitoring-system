@@ -35,29 +35,9 @@ resource "aws_alb" "alb" {
 
 
 # target groups
-resource "aws_alb_target_group" "http_80" {
-  name_prefix = "${var.project}-tg"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = "${var.main_vpc_id}"
-  target_type = "ip"
-
-  # Alter the destination of the health check to be the login page.
-  
-  health_check {
-    path = "/health"
-    port = 8080
-    protocol = "HTTPS"
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 resource "aws_alb_target_group" "https_443" {
   name_prefix = "${var.project}-tg"
-  port     = 80
+  port     = 8080
   protocol = "HTTPS"
   vpc_id   = "${var.main_vpc_id}"
   target_type = "ip"

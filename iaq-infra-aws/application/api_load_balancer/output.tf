@@ -6,10 +6,6 @@ output "load_balancer_security_group_id" {
   value = aws_security_group.alb.id
 }
 
-output "load_balancer_target_group_http_80_id" {
-  value = aws_alb_target_group.http_80.id
-}
-
 output "load_balancer_target_group_https_443_id" {
   value = aws_alb_target_group.https_443.id
 }
