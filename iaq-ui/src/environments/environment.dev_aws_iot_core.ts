@@ -20,7 +20,7 @@ export const environment = {
 
 
   // MQTT configs endpoint
-  localMqtt: true,
+  localMqtt: false,
   MQTT_CONFIGS_PATH: `${API_CONFIGS_BASE_PATH}/mqtt`,
 };
 

@@ -1,7 +1,8 @@
 <mat-form-field appearance="outline">
     <mat-label>Estaciones</mat-label>
     <mat-select [formControl]="stationForm" multiple>
-    <mat-option *ngFor="let station of stations" [value]="station">{{station.name}}</mat-option>
+        <mat-option *ngFor="let station of stations" [value]="station">{{station.name}}</mat-option>
     </mat-select>
+    <mat-error *ngIf="stationForm.hasError('required')">Please choose one station</mat-error>
 </mat-form-field>
      

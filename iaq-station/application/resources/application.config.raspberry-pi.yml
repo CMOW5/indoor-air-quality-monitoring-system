@@ -1,9 +1,11 @@
 station:
-  id: test-station-pc-1
+  id: raspberry-pi-station
 
 mqtt:
   host: a1p4xmzac7ibxf-ats.iot.us-east-1.amazonaws.com
   port: 8883
+#  host: 192.168.1.1
+#  port: 1884
   keepalive: 60
   cert_filepath: certificate.pem.crt
   private_key_filepath: private.pem.key

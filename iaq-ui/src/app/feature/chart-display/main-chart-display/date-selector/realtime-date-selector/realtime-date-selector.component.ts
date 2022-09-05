@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DateRange } from '../date-range.interface';
 import { RealTimeDateUnit } from './real-time-unit.enum';
 
@@ -10,48 +10,70 @@ import { RealTimeDateUnit } from './real-time-unit.enum';
 })
 export class RealtimeDateSelectorComponent implements OnInit {
 
-  // todo: fetch this
+  // todo: fetch this from backend
   DEFAULT_REALTIME_TIME_MINUTES = 1
 
-  // todo: fetch this
+  // todo: fetch this from backend
   realTimeTypes = [
     RealTimeDateUnit.MINUTES, 
     RealTimeDateUnit.HOURS, 
     RealTimeDateUnit.DAYS
   ];
 
-  timeTypeFormControl = new FormControl('', [Validators.required]);
-
-  timeFormControl = new FormControl('', [Validators.required]);
+  realtimeForm = new FormGroup({
+    timeUnitFormControl: new FormControl('', [Validators.required]),
+    timeFormControl: new FormControl('', [Validators.required, Validators.min(1)])
+  });
 
   @Output() timeSelected = new EventEmitter<DateRange>();
 
   constructor() { }
 
   ngOnInit(): void {
-    this.timeFormControl.valueChanges.subscribe(() => {
+    this.realtimeForm.valueChanges.subscribe(() => {
       this.emitOnTimeSelected();
-    })
+    });
+  }
 
-    this.timeTypeFormControl.valueChanges.subscribe(() => {
-      this.emitOnTimeSelected();
-    })
-    
-    this.timeTypeFormControl.setValue(RealTimeDateUnit.MINUTES);
-    this.timeFormControl.setValue(this.DEFAULT_REALTIME_TIME_MINUTES);
+  public ngAfterViewInit(): void {
+    // hacky call here!!
+    // Wait a tick first so the parent 'date-selector-component' can get a valid reference
+    // to the ViewChild components. If we do this without setTimeout, 'date-selector-component' will get an undefined reference
+    // for this component, causing the isValid function to fail
+    setTimeout(() => {
+      this.realtimeForm.patchValue({
+        timeFormControl: this.DEFAULT_REALTIME_TIME_MINUTES,
+        timeUnitFormControl: RealTimeDateUnit.MINUTES,
+      });
+    }, 0);
+  }
+  
+
+  get timeUnitFormControl() {
+    return this.realtimeForm.get('timeUnitFormControl');
+  }
+
+  get timeFormControl() {
+    return this.realtimeForm.get('timeFormControl');
+  }
+
+  public get isValid() {
+    return this.realtimeForm.valid;
   }
 
   emitOnTimeSelected() {
+    if (!this.isValid) return;
+
     let start = new Date();
     let end = new Date();
     
     // substract the input value from the start date using the proper time unit
-    if (this.timeTypeFormControl.value === RealTimeDateUnit.MINUTES) {
-      start.setMinutes(start.getMinutes() - this.timeFormControl.value);
-    } else if (this.timeTypeFormControl.value === RealTimeDateUnit.HOURS) {
-      start.setHours(start.getHours() - this.timeFormControl.value);
-    } else if (this.timeTypeFormControl.value === RealTimeDateUnit.DAYS) {
-      start.setDate(start.getDate() - this.timeFormControl.value);
+    if (this.timeUnitFormControl?.value === RealTimeDateUnit.MINUTES) {
+      start.setMinutes(start.getMinutes() - this.timeFormControl?.value);
+    } else if (this.timeUnitFormControl?.value === RealTimeDateUnit.HOURS) {
+      start.setHours(start.getHours() - this.timeFormControl?.value);
+    } else if (this.timeUnitFormControl?.value === RealTimeDateUnit.DAYS) {
+      start.setDate(start.getDate() - this.timeFormControl?.value);
     }
     
     this.timeSelected.emit({
@@ -59,8 +81,8 @@ export class RealtimeDateSelectorComponent implements OnInit {
       end: end,
       realtime: true,
       realtimeData: {
-        unit: this.timeTypeFormControl.value,
-        time: this.timeFormControl.value
+        unit: this.timeUnitFormControl?.value,
+        time: this.timeFormControl?.value
       }
     });
   }
