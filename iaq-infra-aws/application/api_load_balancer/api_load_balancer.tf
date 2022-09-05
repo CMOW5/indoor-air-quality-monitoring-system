@@ -35,20 +35,20 @@ resource "aws_alb" "alb" {
 
 
 # target groups
-resource "aws_alb_target_group" "group" {
+resource "aws_alb_target_group" "https_443" {
   name_prefix = "${var.project}-tg"
-  port     = 80
-  protocol = "HTTP"
+  port     = 8080
+  protocol = "HTTPS"
   vpc_id   = "${var.main_vpc_id}"
   target_type = "ip"
 
   # Alter the destination of the health check to be the login page.
-  /*
+  
   health_check {
-    path = "/status"
-    port = 80
+    path = "/health"
+    port = 8080
+    protocol = "HTTPS"
   }
-  */
 
   lifecycle {
     create_before_destroy = true
@@ -61,21 +61,23 @@ resource "aws_alb_listener" "listener_http" {
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = "${aws_alb_target_group.group.arn}"
-    type             = "forward"
+    type = "redirect"
+
+    redirect {
+      port = "443"
+      protocol = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }
-
-/*
 resource "aws_alb_listener" "listener_https" {
   load_balancer_arn = "${aws_alb.alb.arn}"
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "${var.certificate_arn}"
+  certificate_arn   = "arn:aws:acm:us-east-1:354562611480:certificate/3d6ab075-4187-42f8-a44e-af36d5e00d17"
   default_action {
-    target_group_arn = "${aws_alb_target_group.group.arn}"
+    target_group_arn = "${aws_alb_target_group.https_443.arn}"
     type             = "forward"
   }
 }
-*/

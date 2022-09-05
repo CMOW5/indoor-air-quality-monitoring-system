@@ -26,6 +26,7 @@ resource "aws_ecs_task_definition" "iaq_api_task_definition" {
   memory                   = var.memory
   #execution_role_arn       = "${data.aws_iam_role.ecs_task_execution_role.arn}"
   execution_role_arn = "arn:aws:iam::354562611480:role/ecsTaskExecutionRole"
+  task_role_arn = "arn:aws:iam::354562611480:role/iaqApiTaskRole"
   container_definitions = <<DEFINITION
 [
   {
@@ -39,7 +40,21 @@ resource "aws_ecs_task_definition" "iaq_api_task_definition" {
         "containerPort": ${var.container_port},
         "hostPort": ${var.container_port}
       }
-    ]
+    ],
+    "environment": [
+      {
+        "name": "AWS_DEFAULT_REGION",
+        "value": "${var.region}"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${var.project}-api",
+            "awslogs-region": "${var.region}",
+            "awslogs-stream-prefix": "${var.project}"
+      }
+    }
   }
 ]
 DEFINITION
@@ -66,10 +81,10 @@ resource "aws_ecs_service" "iaq_api_ecs_service" {
   }
 
   load_balancer {
-    target_group_arn = var.load_balancer_target_group_id
+    target_group_arn = var.load_balancer_target_group_https_id
     container_name   = "${var.project}-container-definition"
     container_port   = var.container_port
   }
 
-  depends_on = [var.load_balancer_listener_http]
+  depends_on = [var.load_balancer_listener_http, var.load_balancer_listener_https]
 }
