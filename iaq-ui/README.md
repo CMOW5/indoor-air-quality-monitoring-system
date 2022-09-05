@@ -32,3 +32,8 @@ ng serve --configuration=dev_aws_iot_core
 
 ## using local mqtt broker
 ng serve  
+
+## deploy 
+go to the iaq-ui directory and execute
+
+ng deploy --base-href=/indoor-air-quality-monitoring-system/
