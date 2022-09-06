@@ -1,5 +1,5 @@
 from application.domain.sensor.sensor import SensorData
-from application.domain.sensor.sensor_queue import SensorQueue
+from application.domain.sensor.sensor_queue import SensorQueue, EmptySensorQueueException
 from application.utils.decorators.synchronized import synchronized
 
 
@@ -60,8 +60,4 @@ class CircularSensorQueue(SensorQueue):
         return self.read_pointer == self.write_pointer
 
 
-class EmptySensorQueueException(Exception):
 
-    def __init__(self, message="Sensor Queue is empty"):
-        self.message = message
-        super().__init__(self.message)

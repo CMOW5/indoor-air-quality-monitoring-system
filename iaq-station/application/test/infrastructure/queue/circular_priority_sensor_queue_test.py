@@ -1,8 +1,8 @@
 import unittest
 
 from application.domain.sensor.sensor import SensorData
-from application.infrastructure.queue.circular_priority_sensor_queue import CircularPrioritySensorQueue, \
-    EmptySensorQueueException
+from application.domain.sensor.sensor_queue import EmptySensorQueueException
+from application.infrastructure.queue.circular_priority_sensor_queue import CircularPrioritySensorQueue
 
 
 class TestStringMethods(unittest.TestCase):
