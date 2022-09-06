@@ -15,6 +15,7 @@ class AwsMqttConnection(metaclass=ThreadSafeSingleton):
     Another option is to have a pool of mqtt connections (with just one in this case) from which
     we can borrow a single connection
     """
+
     def __init__(self, mqtt_config: MqttConfig):
         self.mqtt_config = mqtt_config
         self.mqtt_connection = mqtt_connection_builder.mtls_from_path(
@@ -71,7 +72,7 @@ class AwsMqttConnection(metaclass=ThreadSafeSingleton):
     # Callback when connection is accidentally lost.
     def on_connection_interrupted(self, connection, error, **kwargs):
         print("Connection interrupted. error: {}".format(error))
-        #self.is_connected = False
+        # self.is_connected = False
 
     # Callback when an interrupted connection is re-established.
     def on_connection_resumed(self, connection, return_code, session_present, **kwargs):
