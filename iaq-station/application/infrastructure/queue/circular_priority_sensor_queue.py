@@ -1,6 +1,6 @@
 from queue import PriorityQueue
 from application.domain.sensor.sensor import SensorData
-from application.domain.sensor.sensor_queue import SensorQueue
+from application.domain.sensor.sensor_queue import SensorQueue, EmptySensorQueueException
 from application.utils.decorators.synchronized import synchronized
 
 
@@ -22,6 +22,8 @@ class CircularPrioritySensorQueue(SensorQueue):
 
         :param value: the new data entry
         """
+        if not value:
+            return
 
         if self.is_full():
             # if queue is full, then let's delete the older data to make room for newer data
@@ -57,10 +59,3 @@ class CircularPrioritySensorQueue(SensorQueue):
         :returns True if the queue is full, False otherwise
         """
         return self.queue.qsize() >= self.capacity
-
-
-class EmptySensorQueueException(Exception):
-
-    def __init__(self, message="Sensor Queue is empty"):
-        self.message = message
-        super().__init__(self.message)

@@ -16,3 +16,10 @@ class SensorSender:
         :param sensor_data: the sensor data to send
         """
         raise NotImplementedError
+
+
+class SendMqttMessageFailedException(Exception):
+
+    def __init__(self, message="Failed to send message over MQTT"):
+        self.message = message
+        super().__init__(self.message)

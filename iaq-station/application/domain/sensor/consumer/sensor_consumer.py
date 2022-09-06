@@ -1,5 +1,5 @@
-from application.domain.sensor.sender.sensor_sender import SensorSender
-from application.domain.sensor.sensor_queue import SensorQueue
+from application.domain.sensor.sender.sensor_sender import SensorSender, SendMqttMessageFailedException
+from application.domain.sensor.sensor_queue import SensorQueue, EmptySensorQueueException
 
 
 class SensorConsumer:
@@ -23,9 +23,14 @@ class SensorConsumer:
         """
         consumes the data by reading from the queue and sending that data using the SensorSender
         """
+        sensor_data = None
         try:
             sensor_data = self.queue.get()
             self.sender.send(sensor_data)
             print('consumed value = ', sensor_data.to_string())
-        except Exception as exception:
-            print("exception happened while trying to consume the value, exception = ", exception)
+        except EmptySensorQueueException as exception:
+            print("exception happened while trying to consume from the queue, exception = ", exception)
+        except SendMqttMessageFailedException as exception:
+            print("exception happened while trying to consume the value. Re-adding the datapoint to the queue. "
+                  "exception = ", exception)
+            self.queue.put(sensor_data)
