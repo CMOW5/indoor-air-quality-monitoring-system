@@ -1,4 +1,4 @@
 terraform init
 terraform plan -var-file=variables/application.tfvars
 terraform apply -var-file=variables/application.tfvars
-terraform destroy
+terraform destroy -var-file=variables/application.tfvars

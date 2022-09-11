@@ -1,9 +1,4 @@
-from awscrt import mqtt
-from concurrent.futures import Future
-
-from typing import Tuple
-from functools import partial
-from application.domain.sensor.sender.sensor_sender import SensorSender
+from application.domain.sensor.sender.sensor_sender import SensorSender, SendMqttMessageFailedException
 from application.domain.sensor.sensor import SensorData
 from application.infrastructure.mqtt.config.mqtt_config import MqttConfig
 from application.infrastructure.mqtt.sender.aws.aws_mqtt_connection import AwsMqttConnection
@@ -17,20 +12,12 @@ class AwsMqttSender(SensorSender):
         self.aws_connection = AwsMqttConnection(mqtt_config)
 
     def send(self, sensor_data: SensorData):
-        data_point = MqttDataDto(self.mqtt_config.station_id, sensor_data.value, sensor_data.timestamp)
-        print('sending via MQTT to topic = ', self.mqtt_config.topic, ' , data = ', data_point.to_string())
-        result: Tuple[Future, int] = self.aws_connection.get_mqtt_connection().publish(
-            topic=self.mqtt_config.topic,
-            payload=data_point.to_string(),
-            qos=mqtt.QoS.AT_LEAST_ONCE)
+        datapoint = MqttDataDto(self.mqtt_config.station_id, sensor_data.value, sensor_data.timestamp)
+        print('sending via MQTT to topic = ', self.mqtt_config.topic, ' , data = ', datapoint.to_string())
 
-        future_result, package_id = result
-        future_result.add_done_callback(partial(self.send_result, data_point))
-
-    def send_result(self, data_point: MqttDataDto, future: Future):
         try:
-            if future.exception():
-                print('ERROR: failed to send via MQTT to topic = ', self.mqtt_config.topic,
-                      ' , data = ', data_point.to_string(), ' exception code is ', future.exception())
+            future_result = self.aws_connection.publish(topic=self.mqtt_config.topic, datapoint=datapoint)
+            print('DONE sending via MQTT ', future_result.result(timeout=0.5))
         except Exception as exception:
-            print('ERROR: failed to parse FUTURE, exception is = ', exception)
+            print("ERROR trying to send message over AWS MQTT, exception = ", exception)
+            raise SendMqttMessageFailedException()

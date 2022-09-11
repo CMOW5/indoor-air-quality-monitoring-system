@@ -46,3 +46,10 @@ class SensorQueue:
         :returns True if the queue is full, False otherwise
         """
         raise NotImplementedError
+
+
+class EmptySensorQueueException(Exception):
+
+    def __init__(self, message="Sensor Queue is empty"):
+        self.message = message
+        super().__init__(self.message)

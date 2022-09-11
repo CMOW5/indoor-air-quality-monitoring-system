@@ -1,9 +1,9 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { AppComponent } from 'src/app/app.component';
 import { DateRange } from './date-selector/date-range.interface';
 import { Metric } from '../../../core/metric/metric.interface';
 import { Station } from '../../../core/station/station.interface';
+import { DashboardComponent } from '../../dashboard/dashboard.component';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { Station } from '../../../core/station/station.interface';
 export class MainChartDisplayComponent implements OnInit, OnDestroy {
 
   public unique_key= 0;
-  public parentRef!: AppComponent;
+  public parentRef!: DashboardComponent;
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
