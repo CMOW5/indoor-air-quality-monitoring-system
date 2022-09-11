@@ -15,6 +15,12 @@ export class AuthService {
     window.location.href = environment.COGNITO_LOGIN_URL;
   }
 
+  public logout() {
+    // todo: revoke the token in cognito as well
+    this.localStorageUserService.deleteUserData();
+    this.login();
+  }
+
   public isLoggedIn(): Observable<boolean> {
     return new Observable((observer) => {
 
@@ -80,6 +86,10 @@ export class AuthService {
 
   public getAccessToken(): string | null {
     return this.localStorageUserService.getUserAccessToken();
+  }
+
+  public getUserEmail(): string | null {
+    return this.localStorageUserService.getUserEmail();
   }
 }
 

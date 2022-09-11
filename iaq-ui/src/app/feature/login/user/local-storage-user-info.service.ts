@@ -30,4 +30,9 @@ export class LocalStorageUserService {
   public getUserEmail(): string | null {
     return localStorage.getItem(this.USER_EMAIL_KEY);
   }
+
+  public deleteUserData() {
+    localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+    localStorage.removeItem(this.USER_EMAIL_KEY);
+  }
 }
