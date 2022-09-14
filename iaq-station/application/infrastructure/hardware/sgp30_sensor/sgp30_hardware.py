@@ -23,6 +23,8 @@ class SGP30(CO2Hardware, VOCsHardware):
 
     BASELINE_DEFAULT_WRITE_TIME_SECONDS = 3600
 
+    SENSOR_WARM_UP_TIME_SECONDS = 15
+
     def __init__(self, temperature_hardware: TemperatureHardware, humidity_hardware: HumidityHardware,
                  sgp30_repository: SGP30Repository):
         self.temperature_hardware = temperature_hardware
@@ -31,6 +33,7 @@ class SGP30(CO2Hardware, VOCsHardware):
         self.cache_time_to_live_seconds = 1
         self.cached_sensor_data = dict()
         self.last_read = time.time()
+        self.warm_up_read_time = time.time()
         self.i2c = board.I2C()
         self.sgp30 = adafruit_sgp30.Adafruit_SGP30(self.i2c)
 
@@ -80,6 +83,9 @@ class SGP30(CO2Hardware, VOCsHardware):
         with self.threadLock:
             read_time = time.time()
 
+            if not self.is_warm(read_time):
+                raise SensorIsNotWarmException()
+
             if self.cache_expired(read_time):
                 self.cached_sensor_data["TVOC"] = self.sgp30.TVOC
                 self.cached_sensor_data["eCO2"] = self.sgp30.eCO2
@@ -88,6 +94,13 @@ class SGP30(CO2Hardware, VOCsHardware):
             self.save_iqa_baseline()
 
             return self.cached_sensor_data
+
+    """
+    SGP30 needs to warm up for 15 seconds before producing reliable readings.
+    If the current read time is less than 15 seconds, we should ignore the sensor reading    
+    """
+    def is_warm(self, read_time) -> bool:
+        return read_time - self.warm_up_read_time > self.SENSOR_WARM_UP_TIME_SECONDS
 
     def cache_expired(self, read_time) -> bool:
         return (read_time - self.last_read > self.cache_time_to_live_seconds) or not self.cached_sensor_data
@@ -125,3 +138,9 @@ class SGP30(CO2Hardware, VOCsHardware):
     def should_save_iaq_baseline(self, current_time) -> bool:
         return current_time - self.baseline_last_save > self.baseline_write_time_seconds
 
+
+class SensorIsNotWarmException(Exception):
+
+    def __init__(self, message="SGP30 has not warmed up yet"):
+        self.message = message
+        super().__init__(self.message)
