@@ -14,6 +14,7 @@ class PM25Sensor(Sensor):
     """
 
     def __init__(self, hardware: PM25Hardware):
+        super().__init__("pm25")
         self.hardware = hardware
 
     def read_from_hardware(self):

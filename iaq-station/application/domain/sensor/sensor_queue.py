@@ -10,6 +10,8 @@ class SensorQueue:
         process the data immediately when we do the sensor reading (we can consume the data in the queue at the
         appropriate time)
     """
+    def __init__(self, name: str = ""):
+        self.name = name
 
     @abstractmethod
     def put(self, value: SensorData):

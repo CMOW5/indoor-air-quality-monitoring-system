@@ -1,5 +1,6 @@
 import threading
 import time
+import logging
 
 import board
 import adafruit_sgp30
@@ -23,6 +24,8 @@ class SGP30(CO2Hardware, VOCsHardware):
 
     BASELINE_DEFAULT_WRITE_TIME_SECONDS = 3600
 
+    SENSOR_WARM_UP_TIME_SECONDS = 15
+
     def __init__(self, temperature_hardware: TemperatureHardware, humidity_hardware: HumidityHardware,
                  sgp30_repository: SGP30Repository):
         self.temperature_hardware = temperature_hardware
@@ -31,6 +34,7 @@ class SGP30(CO2Hardware, VOCsHardware):
         self.cache_time_to_live_seconds = 1
         self.cached_sensor_data = dict()
         self.last_read = time.time()
+        self.warm_up_read_time = time.time()
         self.i2c = board.I2C()
         self.sgp30 = adafruit_sgp30.Adafruit_SGP30(self.i2c)
 
@@ -49,18 +53,18 @@ class SGP30(CO2Hardware, VOCsHardware):
 
         try:
             eco2_baseline, tvocs_baseline = self.sgp30_repository.get_iaq_baseline()
-            print("INFO setting iaq baseline = co2:{} , tvocs:{}".format(eco2_baseline, tvocs_baseline))
+            logging.info("setting iaq baseline = co2:%s , tvocs:%s", eco2_baseline, tvocs_baseline)
             self.sgp30.set_iaq_baseline(eco2_baseline, tvocs_baseline)
-        except ValueError as error:
-            print("WARNING while getting the iaq_baseline because we don't have one. setting the "
-                  "baseline_write_time_seconds to 12 hours to start the calibration", error)
+        except ValueError:
+            logging.warning("warning while getting the iaq_baseline because we don't have one. setting the "
+                            "baseline_write_time_seconds to 12 hours to start the calibration")
             """
             If no stored baseline is available after initializing the baseline algorithm, 
             the sensor has to run for 12 hours until the baseline can be stored.
             """
             self.baseline_write_time_seconds = SGP30.BASELINE_CALIBRATION_12_HOURS_SECONDS
         except FileNotFoundError as error:
-            print('WARNING while setting the iaq_baseline ', error)
+            logging.exception('error while setting the iaq_baseline. Exception = %s', error)
 
     def set_temperature_and_humidity_compensation(self):
         celsius = self.temperature_hardware.read_temperature()
@@ -80,6 +84,9 @@ class SGP30(CO2Hardware, VOCsHardware):
         with self.threadLock:
             read_time = time.time()
 
+            if not self.is_warm(read_time):
+                raise SensorIsNotWarmException()
+
             if self.cache_expired(read_time):
                 self.cached_sensor_data["TVOC"] = self.sgp30.TVOC
                 self.cached_sensor_data["eCO2"] = self.sgp30.eCO2
@@ -88,6 +95,14 @@ class SGP30(CO2Hardware, VOCsHardware):
             self.save_iqa_baseline()
 
             return self.cached_sensor_data
+
+    """
+    SGP30 needs to warm up for 15 seconds before producing reliable readings.
+    If the current read time is less than 15 seconds, we should ignore the sensor reading    
+    """
+
+    def is_warm(self, read_time) -> bool:
+        return read_time - self.warm_up_read_time > self.SENSOR_WARM_UP_TIME_SECONDS
 
     def cache_expired(self, read_time) -> bool:
         return (read_time - self.last_read > self.cache_time_to_live_seconds) or not self.cached_sensor_data
@@ -116,7 +131,7 @@ class SGP30(CO2Hardware, VOCsHardware):
         if self.should_save_iaq_baseline(current_time):
             eco2_baseline = self.read_eco2_baseline()
             tvoc_baseline = self.read_tvoc_baseline()
-            print("INFO saving new baseline = eco2: {}, tvocs:{}".format(eco2_baseline, tvoc_baseline))
+            logging.info("saving new baseline = eco2: %s, tvocs:%s", eco2_baseline, tvoc_baseline)
             self.sgp30_repository.save_iaq_baseline(eco2_baseline, tvoc_baseline)
             self.baseline_last_save = current_time
             self.baseline_write_time_seconds = SGP30.BASELINE_DEFAULT_WRITE_TIME_SECONDS  # override the 12hour cadence
@@ -125,3 +140,9 @@ class SGP30(CO2Hardware, VOCsHardware):
     def should_save_iaq_baseline(self, current_time) -> bool:
         return current_time - self.baseline_last_save > self.baseline_write_time_seconds
 
+
+class SensorIsNotWarmException(Exception):
+
+    def __init__(self, message="SGP30 has not warmed up yet"):
+        self.message = message
+        super().__init__(self.message)

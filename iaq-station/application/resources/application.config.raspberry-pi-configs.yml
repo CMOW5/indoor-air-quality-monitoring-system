@@ -13,30 +13,30 @@ mqtt:
 
 temperature:
   mqtt_topic: sensor/temperature
-  producer_time: 3.0
-  consumer_time: 2.0
+  producer_time: 60
+  consumer_time: 30
 
 humidity:
   mqtt_topic: sensor/humidity
-  producer_time: 3.0
-  consumer_time: 2.0
+  producer_time: 60
+  consumer_time: 30
 
 pm25:
   mqtt_topic: sensor/pm25
-  producer_time: 3.0
-  consumer_time: 2.0
+  producer_time: 5
+  consumer_time: 3
 
 pm10:
   mqtt_topic: sensor/pm10
-  producer_time: 3.0
-  consumer_time: 2.0
+  producer_time: 5
+  consumer_time: 3
 
 co2:
   mqtt_topic: sensor/co2
-  producer_time: 3.0
-  consumer_time: 2.0
+  producer_time: 5
+  consumer_time: 3
 
 vocs:
   mqtt_topic: sensor/vocs
-  producer_time: 3.0
-  consumer_time: 2.0
+  producer_time: 5
+  consumer_time: 3

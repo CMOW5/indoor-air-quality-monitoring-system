@@ -8,6 +8,7 @@ from application.infrastructure.app.config.application_config import AppConfig
 from application.infrastructure.app.dependency_container.dependency_container import DependencyContainer
 from application.infrastructure.app.sensor_process.sensor_process_factory import SensorProcessFactory
 from application.infrastructure.queue.circular_priority_sensor_queue import CircularPrioritySensorQueue
+import logging
 
 
 class App:
@@ -19,7 +20,7 @@ class App:
         self.sender_registry = self.dependency_container.get_sender_registry()
 
     def setup(self):
-        print('setting up application...')
+        logging.info('setting up application...')
         self._setup_temperature()
         self._setup_humidity()
         self._setup_pm25()
@@ -29,7 +30,7 @@ class App:
 
     def _setup_temperature(self):
         sensor = TemperatureSensor(self.hardware_registry.get_temperature_hardware())
-        sensor_queue = CircularPrioritySensorQueue()
+        sensor_queue = CircularPrioritySensorQueue(name='temp_sensor_queue')
         temperature_sensor_sender = self.sender_registry.get_mqtt_temp_sender()
 
         SensorProcessFactory(sensor, sensor_queue, temperature_sensor_sender,
@@ -38,7 +39,7 @@ class App:
 
     def _setup_humidity(self):
         sensor = HumiditySensor(self.hardware_registry.get_humidity_hardware())
-        sensor_queue = CircularPrioritySensorQueue()
+        sensor_queue = CircularPrioritySensorQueue(name='humidity_sensor_queue')
         humidity_sensor_sender = self.sender_registry.get_mqtt_humidity_sender()
 
         SensorProcessFactory(sensor, sensor_queue, humidity_sensor_sender,
@@ -46,7 +47,7 @@ class App:
 
     def _setup_pm25(self):
         sensor = PM25Sensor(self.hardware_registry.get_pm25_hardware())
-        sensor_queue = CircularPrioritySensorQueue()
+        sensor_queue = CircularPrioritySensorQueue(name='pm25_sensor_queue')
         pm25_sensor_sender = self.sender_registry.get_mqtt_pm25_sender()
 
         SensorProcessFactory(sensor, sensor_queue, pm25_sensor_sender,
@@ -54,7 +55,7 @@ class App:
 
     def _setup_pm10(self):
         sensor = PM10Sensor(self.hardware_registry.get_pm10_hardware())
-        sensor_queue = CircularPrioritySensorQueue()
+        sensor_queue = CircularPrioritySensorQueue(name='pm10_sensor_queue')
         pm10_sensor_sender = self.sender_registry.get_mqtt_pm10_sender()
 
         SensorProcessFactory(sensor, sensor_queue, pm10_sensor_sender,
@@ -62,7 +63,7 @@ class App:
 
     def _setup_co2(self):
         sensor = CO2Sensor(self.hardware_registry.get_co2_hardware())
-        sensor_queue = CircularPrioritySensorQueue()
+        sensor_queue = CircularPrioritySensorQueue(name='co2_sensor_queue')
         co2_sensor_sender = self.sender_registry.get_mqtt_co2_sender()
 
         SensorProcessFactory(sensor, sensor_queue, co2_sensor_sender,
@@ -70,7 +71,7 @@ class App:
 
     def _setup_vocs(self):
         sensor = VOCsSensor(self.hardware_registry.get_vocs_hardware())
-        sensor_queue = CircularPrioritySensorQueue()
+        sensor_queue = CircularPrioritySensorQueue(name='vocs_sensor_queue')
         vocs_sensor_sender = self.sender_registry.get_mqtt_vocs_sender()
 
         SensorProcessFactory(sensor, sensor_queue, vocs_sensor_sender,

@@ -2,3 +2,12 @@
 python3 -m unittest discover -s application/test/ -p "*_test.py"
 
 
+# set crontab at every minute
+crontab -e
+* * * * * python /home/pi/iaq-station/monitor/run_iaq_monitor.py
+
+# ram 
+free -h
+
+# disk space
+df -h

@@ -10,7 +10,8 @@ class CircularPrioritySensorQueue(SensorQueue):
      When the queue is full, the older data will be overridden by most recent data.
     """
 
-    def __init__(self, capacity=100):
+    def __init__(self, name="", capacity=100):
+        super().__init__(name)
         self.queue = PriorityQueue(capacity)
         self.capacity = capacity
 

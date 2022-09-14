@@ -1,5 +1,6 @@
 from application.domain.sensor.sensor import Sensor
 from application.domain.sensor.sensor_queue import SensorQueue
+import logging
 
 
 class SensorProducer:
@@ -26,7 +27,8 @@ class SensorProducer:
         try:
             sensor_data = self.sensor.read()
             self.queue.put(sensor_data)
-            print('produced value = ', sensor_data.to_string())
+            logging.info('sensor reading for sensor = %s, data = %s', self.sensor.name, sensor_data.to_string())
         except Exception as exception:
-            print("something wrong happened while trying to read the data from the sensor, exception is = ", exception)
+            logging.exception('something wrong happened while trying to read the data from the sensor. Exception = %s',
+                              exception)
 
