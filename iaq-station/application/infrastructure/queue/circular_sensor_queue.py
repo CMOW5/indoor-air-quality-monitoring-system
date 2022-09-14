@@ -10,6 +10,7 @@ class CircularSensorQueue(SensorQueue):
     """
 
     def __init__(self, capacity=100):
+        super().__init__()
         self.capacity = capacity
         self.queue = [None] * self.capacity
         self.read_pointer = 0

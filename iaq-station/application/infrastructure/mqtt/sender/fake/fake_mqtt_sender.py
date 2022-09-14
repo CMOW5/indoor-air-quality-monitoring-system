@@ -1,5 +1,4 @@
-from abc import abstractmethod
-
+import logging
 from application.domain.sensor.sender.sensor_sender import SensorSender
 from application.domain.sensor.sensor import SensorData
 from application.infrastructure.mqtt.config.mqtt_config import MqttConfig
@@ -17,5 +16,7 @@ class FakeMqttSender(SensorSender):
 
     def send(self, sensor_data: SensorData):
         data_point = MqttDataDto(self.mqtt_config.station_id, sensor_data.value, sensor_data.timestamp)
-        print('sending via FAKE MQTT to topic = ', self.mqtt_config.topic, ' , data = ', data_point.to_string())
+        logging.info('sending message via FAKE MQTT to topic = %s , data = %s',
+                     self.mqtt_config.topic, data_point.to_string())
+
 

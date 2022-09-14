@@ -15,6 +15,7 @@ class VOCsSensor(Sensor):
     """
 
     def __init__(self, hardware: VOCsHardware):
+        super().__init__("vocs")
         self.hardware = hardware
 
     def read_from_hardware(self):

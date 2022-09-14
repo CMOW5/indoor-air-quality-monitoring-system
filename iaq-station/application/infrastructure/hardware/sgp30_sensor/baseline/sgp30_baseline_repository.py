@@ -1,4 +1,5 @@
 import os
+import logging
 from typing import Tuple
 from definitions import IAQ_REPO_DIR
 
@@ -14,6 +15,10 @@ class SGP30Repository:
     BASELINE_FILE = os.path.join(IAQ_REPO_DIR, 'iaq_baseline.txt')
 
     BASELINE_SEPARATOR = ','
+
+    def __init__(self):
+        self.eco2_baseline = None
+        self.tvocs_baseline = None
 
     def get_iaq_baseline(self) -> Tuple[int, int]:
         with open(SGP30Repository.BASELINE_FILE, 'a+') as file:
@@ -35,4 +40,4 @@ class SGP30Repository:
             with open(SGP30Repository.BASELINE_FILE, 'w+') as file:
                 file.write(content)
         except FileNotFoundError as error:
-            print('WARNING, something wrong happened while saving the IAQ_BASELINE, exception is = ', error)
+            logging.exception('something wrong happened while saving the IAQ_BASELINE. Exception = %s ', error)
