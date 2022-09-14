@@ -1,3 +1,4 @@
+import logging
 from typing import Tuple
 
 from awscrt import mqtt
@@ -36,20 +37,17 @@ class AwsMqttConnection(metaclass=ThreadSafeSingleton):
         try:
             self.connect()
         except Exception as exception:
-            print("ERROR Failed to connect to AWS ", exception)
+            logging.exception("Failed to connect to AWS. Exception = %s", exception)
 
     def connect(self):
         try:
-            print("Connecting to {} with client ID '{}'...".format(
-                self.mqtt_config.host, self.mqtt_config.station_id)
-            )
-
+            logging.info("Connecting to %s with client ID '%s'...", self.mqtt_config.host, self.mqtt_config.station_id)
             connect_future: Future = self.mqtt_connection.connect()
             connect_future.result()
             self.is_connected = True
         except Exception as exception:
             self.is_connected = False
-            print("ERROR Failed to connect to AWS ", exception)
+            logging.exception("Failed to connect to AWS. Exception = %s", exception)
             self.mqtt_connection.disconnect()
             # todo: create custom exception
             raise exception
@@ -71,15 +69,15 @@ class AwsMqttConnection(metaclass=ThreadSafeSingleton):
 
     # Callback when connection is accidentally lost.
     def on_connection_interrupted(self, connection, error, **kwargs):
-        print("Connection interrupted. error: {}".format(error))
+        logging.info("Connection interrupted. error = %s", error)
         # self.is_connected = False
 
     # Callback when an interrupted connection is re-established.
     def on_connection_resumed(self, connection, return_code, session_present, **kwargs):
-        print("Connection resumed. return_code: {} session_present: {}".format(return_code, session_present))
+        logging.info("Connection resumed. return_code = %s session_present = %s", return_code, session_present)
 
         if return_code == mqtt.ConnectReturnCode.ACCEPTED and not session_present:
-            print("Session did not persist. Resubscribing to existing topics...")
+            logging.info("Session did not persist. Resubscribing to existing topics...")
             resubscribe_future, _ = connection.resubscribe_existing_topics()
 
             # Cannot synchronously wait for resubscribe result because we're on the connection's event-loop thread,
@@ -88,5 +86,5 @@ class AwsMqttConnection(metaclass=ThreadSafeSingleton):
             resubscribe_future.add_done_callback(self.on_resubscribe_complete)
 
     def on_resubscribe_complete(self, **kwargs):
-        print("Connection resubscribed {}".format(kwargs))
+        logging.info("Connection resubscribed %s", kwargs)
         self.is_connected = True

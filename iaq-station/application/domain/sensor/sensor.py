@@ -69,6 +69,9 @@ class Sensor:
     """
     DATE_FORMATTER = '%Y-%m-%dT%H:%M:%SZ'
 
+    def __init__(self, name: str = None):
+        self.name = name
+
     def read(self) -> SensorData:
         """
         reads the data from the sensor.
@@ -88,3 +91,10 @@ class Sensor:
         :return the sensor data
         """
         raise NotImplementedError
+
+
+class ReadingSensorExceptionSensorIsNotWarmException(Exception):
+
+    def __init__(self, message="SGP30 has not warmed up yet"):
+        self.message = message
+        super().__init__(self.message)

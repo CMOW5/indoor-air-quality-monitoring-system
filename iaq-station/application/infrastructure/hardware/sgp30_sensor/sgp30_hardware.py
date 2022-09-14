@@ -1,5 +1,6 @@
 import threading
 import time
+import logging
 
 import board
 import adafruit_sgp30
@@ -52,18 +53,18 @@ class SGP30(CO2Hardware, VOCsHardware):
 
         try:
             eco2_baseline, tvocs_baseline = self.sgp30_repository.get_iaq_baseline()
-            print("INFO setting iaq baseline = co2:{} , tvocs:{}".format(eco2_baseline, tvocs_baseline))
+            logging.info("setting iaq baseline = co2:%s , tvocs:%s", eco2_baseline, tvocs_baseline)
             self.sgp30.set_iaq_baseline(eco2_baseline, tvocs_baseline)
-        except ValueError as error:
-            print("WARNING while getting the iaq_baseline because we don't have one. setting the "
-                  "baseline_write_time_seconds to 12 hours to start the calibration", error)
+        except ValueError:
+            logging.warning("warning while getting the iaq_baseline because we don't have one. setting the "
+                            "baseline_write_time_seconds to 12 hours to start the calibration")
             """
             If no stored baseline is available after initializing the baseline algorithm, 
             the sensor has to run for 12 hours until the baseline can be stored.
             """
             self.baseline_write_time_seconds = SGP30.BASELINE_CALIBRATION_12_HOURS_SECONDS
         except FileNotFoundError as error:
-            print('WARNING while setting the iaq_baseline ', error)
+            logging.exception('error while setting the iaq_baseline. Exception = %s', error)
 
     def set_temperature_and_humidity_compensation(self):
         celsius = self.temperature_hardware.read_temperature()
@@ -99,6 +100,7 @@ class SGP30(CO2Hardware, VOCsHardware):
     SGP30 needs to warm up for 15 seconds before producing reliable readings.
     If the current read time is less than 15 seconds, we should ignore the sensor reading    
     """
+
     def is_warm(self, read_time) -> bool:
         return read_time - self.warm_up_read_time > self.SENSOR_WARM_UP_TIME_SECONDS
 
@@ -129,7 +131,7 @@ class SGP30(CO2Hardware, VOCsHardware):
         if self.should_save_iaq_baseline(current_time):
             eco2_baseline = self.read_eco2_baseline()
             tvoc_baseline = self.read_tvoc_baseline()
-            print("INFO saving new baseline = eco2: {}, tvocs:{}".format(eco2_baseline, tvoc_baseline))
+            logging.info("saving new baseline = eco2: %s, tvocs:%s", eco2_baseline, tvoc_baseline)
             self.sgp30_repository.save_iaq_baseline(eco2_baseline, tvoc_baseline)
             self.baseline_last_save = current_time
             self.baseline_write_time_seconds = SGP30.BASELINE_DEFAULT_WRITE_TIME_SECONDS  # override the 12hour cadence

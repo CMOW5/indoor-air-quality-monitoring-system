@@ -1,5 +1,6 @@
 import yaml
 import os
+import logging
 from definitions import CERT_DIR
 
 
@@ -16,7 +17,7 @@ class AppConfig:
             try:
                 self.configs = yaml.safe_load(stream)
             except yaml.YAMLError as exception:
-                print("could not load the configuration file")
+                logging.exception("could not load the configuration file. Exception = %s", exception)
                 raise exception
 
     @property

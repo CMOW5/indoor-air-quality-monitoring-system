@@ -1,3 +1,4 @@
+import logging
 import paho.mqtt.client as mqtt
 from application.domain.sensor.sender.sensor_sender import SensorSender
 from application.domain.sensor.sensor import SensorData
@@ -14,8 +15,8 @@ class MqttSender(SensorSender):
 
     def send(self, sensor_data: SensorData):
         data_point = MqttDataDto(self.mqtt_config.station_id, sensor_data.value, sensor_data.timestamp)
-        print('sending via MQTT to topic = ', self.mqtt_config.topic, ' , data = ', data_point.to_string())
+        logging.info('sending via MQTT to topic = %s , data = %s ', self.mqtt_config.topic, data_point.to_string())
         result = self.client.publish(self.mqtt_config.topic, payload=data_point.to_string(), qos=0, retain=False)
         if not result.is_published():
-            print('ERROR: failed to send via MQTT to topic = ', self.mqtt_config.topic,
-                  ' , data = ', data_point.to_string(), ' error code is ', result.rc)
+            logging.error('ERROR: failed to send via MQTT to topic = %s , data = %s , error_code = %s',
+                          self.mqtt_config.topic, data_point.to_string(), result.rc)

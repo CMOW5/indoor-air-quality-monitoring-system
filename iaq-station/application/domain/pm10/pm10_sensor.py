@@ -13,6 +13,7 @@ class PM10Sensor(Sensor):
     """
 
     def __init__(self, hardware: PM10Hardware):
+        super().__init__("pm10")
         self.hardware = hardware
 
     def read_from_hardware(self):

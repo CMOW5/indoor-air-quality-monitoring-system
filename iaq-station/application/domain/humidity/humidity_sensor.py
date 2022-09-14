@@ -12,6 +12,7 @@ class HumiditySensor(Sensor):
          the physical humidity sensor/hardware from which we can read the relative humidity value
     """
     def __init__(self, hardware: HumidityHardware):
+        super().__init__("humidity")
         self.hardware = hardware
 
     def read_from_hardware(self):

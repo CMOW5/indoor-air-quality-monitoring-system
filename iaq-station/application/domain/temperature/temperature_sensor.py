@@ -14,6 +14,7 @@ class TemperatureSensor(Sensor):
     """
 
     def __init__(self, hardware: TemperatureHardware):
+        super().__init__("temperature")
         self.hardware = hardware
 
     def read_from_hardware(self):

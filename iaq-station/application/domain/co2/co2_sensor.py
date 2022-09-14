@@ -12,6 +12,7 @@ class CO2Sensor(Sensor):
          the physical co2 sensor/hardware from which we can read the co2 value
     """
     def __init__(self, hardware: CO2Hardware):
+        super().__init__("co2")
         self.hardware = hardware
 
     def read_from_hardware(self):

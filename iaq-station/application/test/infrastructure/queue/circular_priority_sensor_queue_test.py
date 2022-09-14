@@ -14,7 +14,7 @@ class TestStringMethods(unittest.TestCase):
         """
         CircularSensorPriorityQueue should return the oldest data first
         """
-        queue = CircularPrioritySensorQueue(10)
+        queue = CircularPrioritySensorQueue(capacity=10)
 
         older_sensor_data = SensorData(1, "2022-08-15T12:00:01Z")
         queue.put(older_sensor_data)
@@ -36,7 +36,7 @@ class TestStringMethods(unittest.TestCase):
         When CircularSensorPriorityQueue is full and we insert a new entry, the oldest data should be deleted
         to make room for the most recent data
         """
-        queue = CircularPrioritySensorQueue(2)
+        queue = CircularPrioritySensorQueue(capacity=2)
 
         sensor_data_1 = SensorData(1, "2022-08-15T12:00:01Z")
         queue.put(sensor_data_1)
@@ -64,7 +64,7 @@ class TestStringMethods(unittest.TestCase):
         When CircularSensorPriorityQueue is empty, and we try to read the data, then it should raise
         an EmptySensorQueueException
         """
-        queue = CircularPrioritySensorQueue(10)
+        queue = CircularPrioritySensorQueue(capacity=10)
 
         with self.assertRaises(EmptySensorQueueException):
             queue.get()
