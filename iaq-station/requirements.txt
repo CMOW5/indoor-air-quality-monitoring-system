@@ -6,3 +6,4 @@ adafruit-circuitpython-bme280 == 2.6.13
 adafruit-circuitpython-pm25 == 2.1.9
 adafruit-circuitpython-sgp30 == 3.0.1
 awsiotsdk == 1.11.3
+psutil == 5.9.2

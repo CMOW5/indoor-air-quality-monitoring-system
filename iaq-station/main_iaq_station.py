@@ -22,19 +22,19 @@ def create_config_and_dependency_container() -> Tuple[AppConfig, DependencyConta
 config, dependency_container = create_config_and_dependency_container()
 app = App(config, dependency_container)
 app.setup()
-app.loop_forever()
+#app.loop_forever()
 
 # python3 main.py --help
 
 # fake sensors with local mosquitto
-# python3 main.py local-mqtt generic-linux generic-local-pc
+# python3 main_iaq_station.py local-mqtt generic-linux generic-local-pc-configs
 
 # fake sensors with aws-iot-core
-# python3 main.py aws-iot-core generic-linux generic-pc
+# python3 main_iaq_station.py aws-iot-core generic-linux generic-pc-configs
 
 # raspberry-pi with real sensors with aws-iot-core
-# python3 main.py aws-iot-core raspberry-pi raspberry-pi
+# python3 main_iaq_station.py aws-iot-core raspberry-pi raspberry-pi-configs
 
 # raspberry-pi with real sensors with blackhole
-# python3 main.py black-hole raspberry-pi raspberry-pi
+# python3 main_iaq_station.py black-hole raspberry-pi raspberry-pi-configs
 
