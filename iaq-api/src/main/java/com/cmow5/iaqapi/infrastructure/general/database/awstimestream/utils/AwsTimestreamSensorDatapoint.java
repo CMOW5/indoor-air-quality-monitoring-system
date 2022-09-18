@@ -9,6 +9,8 @@ import java.util.List;
 
 public class AwsTimestreamSensorDatapoint {
 
+    private final String VALUE_FIELD = "value";
+
     private final List<ColumnInfo> columnInfo;
 
     private final Row row;
@@ -27,10 +29,16 @@ public class AwsTimestreamSensorDatapoint {
         return this.parseField("timestamp", this.columnInfo, row);
     }
 
+    public int getMeasureValue() {
+        return Integer.parseInt(this.parseField(VALUE_FIELD, this.columnInfo, row));
+    }
+
+    @Deprecated
     public int getMeasureAsBigint() {
         return Integer.parseInt(this.parseField("measure_value::bigint", this.columnInfo, row));
     }
 
+    @Deprecated
     public String getMeasureAsDouble() {
         return this.parseField("measure_value::double", this.columnInfo, row);
     }

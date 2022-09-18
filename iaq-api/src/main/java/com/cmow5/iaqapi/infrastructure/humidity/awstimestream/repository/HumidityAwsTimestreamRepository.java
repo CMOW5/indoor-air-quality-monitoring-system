@@ -81,7 +81,7 @@ public class HumidityAwsTimestreamRepository implements HumidityRepository {
 
         String stationId = datapoint.getStationId();
         String timestamp = datapoint.getTimestamp();
-        int value = datapoint.getMeasureAsBigint();
+        int value = datapoint.getMeasureValue();
 
         return new HumidityDataPoint(stationId, Instant.ofEpochMilli(Long.parseLong(timestamp)), value);
     }

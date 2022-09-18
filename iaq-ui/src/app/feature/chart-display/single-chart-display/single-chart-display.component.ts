@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartEvent, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { from, mergeMap, Subscription, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { SensorHistoricDataService } from 'src/app/core/historic/sensor-historic-data.service';
 import { MqttSubscriberService } from 'src/app/core/mqtt/mqtt-subscriber.service';
 import { Metric } from '../../../core/metric/metric.interface';
@@ -47,7 +47,7 @@ export class SingleChartDisplayComponent implements OnInit {
         fill: true
       },
       point: {
-        radius: 0
+        radius: 1
       }
       /*
       line: {
@@ -68,8 +68,6 @@ export class SingleChartDisplayComponent implements OnInit {
         ticks: {
           /*
           callback: function(val, index) {
-            
-            console.log('val , index = ', val, )
             //return index % 2 === 0 ? val : '';
             return val;
           },
@@ -96,12 +94,12 @@ export class SingleChartDisplayComponent implements OnInit {
             'millisecond': 'HH:mm:ss',
             'second': 'HH:mm:ss',
             'minute': 'HH:mm',
-            'hour': 'HH',
-            'day': 'MM DD HH',
-            'week': 'MM DD HH',
-            'month': 'MM DD HH',
-            'quarter': 'MM DD HH',
-            'year': 'MM DD HH',
+            'hour': 'MMM DD HH',
+            'day': 'MMM DD HH',
+            'week': 'MMM DD HH',
+            'month': 'MMM DD HH',
+            'quarter': 'MMM DD HH',
+            'year': 'MMM DD HH',
          }
         }
       },
@@ -213,11 +211,6 @@ export class SingleChartDisplayComponent implements OnInit {
 
   public onSend() {
     this.cleanUpData();
-  
-    console.log('onSend!!');
-    console.log('selected dates = ', this.dateRange);
-    console.log('selected stations = ', this.stations);
-    console.log('selected metrics = ', this.metric);
 
     this.stations.forEach((station) => {
       const randomColor = this.randomRgba();
@@ -239,30 +232,25 @@ export class SingleChartDisplayComponent implements OnInit {
 
     // reinitialize dates here for realtime
 
-    from(this.stations).pipe(
-      mergeMap((station) => this.sensorHistoryDataService.getStationDataBetweenDates(station.id, this.metric.id, this.dateRange.start, this.dateRange.end)),
-      tap((response) => {
-        const stationId = response.stationId;
-        const datapoints = response.data;
-        this.addDataPointsByStation(stationId, datapoints);
-      }),
-      tap(() => {
-        // only if realtime is selected
-        if (this.dateRange.realtime) {
-          this.stations.forEach((station) => {
-            console.log('create subscription');
-            const mqttSubscription = this.mqttSubscriber.createSubscription(this.metric.id, station.id).subscribe((datapoint) => {
-              this.addRealtimeDataPointByStation(station, datapoint);
-            });
-            this.mqttSubscriptions.push(mqttSubscription);
-          })
-        }
-      })
-    ).subscribe();
+    this.stations.forEach(station => {
+      this.sensorHistoryDataService.getStationDataBetweenDates(station.id, this.metric.id, this.dateRange.start, this.dateRange.end)
+          .subscribe(response => {
+            const stationId = response.stationId;
+            const datapoints = response.data;
+            this.addDataPointsByStation(stationId, datapoints);
+
+            if (this.dateRange.realtime) {
+              const mqttSubscription = this.mqttSubscriber.createSubscription(this.metric.id, station.id).subscribe((datapoint) => {
+                this.addRealtimeDataPointByStation(station, datapoint);
+              });
+              this.mqttSubscriptions.push(mqttSubscription);
+            }
+
+          });
+    });
   }
 
   initChart() {
-    console.log('ninit char')
     this.updateChartYLabel();
     this.updateChartYMinValue();
     this.chart?.update();

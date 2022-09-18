@@ -21,7 +21,6 @@ export class MqttConfigService {
 
     return new Observable((observer) => {
       this.httpClient.get<MqttConfigsDto>(url).subscribe((response) => {
-        console.log('response mqtt configs = ', response);
         observer.next(response);
       });      
     });
