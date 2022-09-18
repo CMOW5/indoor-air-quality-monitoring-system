@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateRange } from '../date-range.interface';
 
 @Component({
@@ -10,8 +10,8 @@ import { DateRange } from '../date-range.interface';
 export class HistoricDateSelectorComponent implements OnInit {
 
   dateRangeForm = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
+    start: new FormControl('', Validators.required),
+    end: new FormControl('', Validators.required),
   });
 
   @Output() timeSelected = new EventEmitter<DateRange>();
@@ -33,9 +33,8 @@ export class HistoricDateSelectorComponent implements OnInit {
     });
   }
 
-  get isValid() {
-    // todo
-    return true;
+  get isValid(): boolean {
+    return this.dateRangeForm.valid;
   }
 
 }
