@@ -11,10 +11,11 @@ export class SensorHistoricDataService {
   constructor(private httpClient: HttpClient) { }
 
   public getStationDataBetweenDates(station: string, metric: string, start: Date, end: Date): Observable<any> {
-    let params = new HttpParams();
-    params = params.set('start', start.toISOString());
-    params = params.set('end', end.toISOString());
-    params = params.set('sort', 'ASC');
+    let params = new HttpParams()
+                      .set('start', start.toISOString())
+                      .set('end', end.toISOString())
+                      .set('sort', 'ASC');
+
     const url = environment.buildHistoricUrl(station, metric); 
 
     return new Observable((observer) => {

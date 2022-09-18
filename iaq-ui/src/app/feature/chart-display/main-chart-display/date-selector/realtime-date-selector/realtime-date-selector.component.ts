@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DateRange } from '../date-range.interface';
 import { RealTimeDateUnit } from './real-time-unit.enum';
+import { debounceTime } from 'rxjs/operators'
 
 @Component({
   selector: 'app-realtime-date-selector',
@@ -30,7 +31,11 @@ export class RealtimeDateSelectorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.realtimeForm.valueChanges.subscribe(() => {
+    this.realtimeForm.valueChanges
+    .pipe(
+      debounceTime(1000),
+    )
+    .subscribe(() => {
       this.emitOnTimeSelected();
     });
   }

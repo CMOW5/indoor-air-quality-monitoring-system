@@ -81,7 +81,7 @@ public class VocsAwsTimestreamRepository implements VocsRepository {
 
         String stationId = datapoint.getStationId();
         String timestamp = datapoint.getTimestamp();
-        int value = datapoint.getMeasureAsBigint();
+        int value = datapoint.getMeasureValue();
 
         return new VocsDataPoint(stationId, Instant.ofEpochMilli(Long.parseLong(timestamp)), value);
     }

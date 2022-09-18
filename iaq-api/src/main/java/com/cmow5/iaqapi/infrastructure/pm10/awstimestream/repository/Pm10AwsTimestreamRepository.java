@@ -81,7 +81,7 @@ public class Pm10AwsTimestreamRepository implements Pm10Repository {
 
         String stationId = datapoint.getStationId();
         String timestamp = datapoint.getTimestamp();
-        int value = datapoint.getMeasureAsBigint();
+        int value = datapoint.getMeasureValue();
 
         return new Pm10DataPoint(stationId, Instant.ofEpochMilli(Long.parseLong(timestamp)), value);
     }

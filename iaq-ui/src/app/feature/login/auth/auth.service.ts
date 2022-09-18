@@ -59,7 +59,6 @@ export class AuthService {
           observer.next(true);
         }, 
         error: (e) => {
-          console.log('error getting user data = ', e);
           observer.next(false);
         }});      
     });     
@@ -78,7 +77,6 @@ export class AuthService {
         observer.next(response);
       }, error => {
         // todo: we shouldn't call login here. have the requester decide what to do if there's any error
-        console.log('error getting user data = ', error);
         this.login();
       });     
     });     
