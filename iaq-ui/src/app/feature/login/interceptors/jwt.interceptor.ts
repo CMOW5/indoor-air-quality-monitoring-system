@@ -12,7 +12,6 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private userInfoService: AuthService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log('jwt interceptor');
     // add auth header with jwt if account is logged in and request is to the api url
     const token = this.userInfoService.getAccessToken();
 

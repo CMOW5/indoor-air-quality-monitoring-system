@@ -29,8 +29,7 @@ export class MqttSubscriberService {
             observer.next(datapoint);
           }
         },
-        error: (error: any) => console.error(error),
-        close: () => console.log('Done'),
+        error: (error: any) => console.error(error)
       });
   
       // When the consumer unsubscribes, clean up data ready for next subscription.

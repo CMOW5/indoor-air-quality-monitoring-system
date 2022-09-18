@@ -2,7 +2,7 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-const API_BASE_PATH = "http://localhost:8080"
+const API_BASE_PATH = "http://localhost:8081"
 const API_CONFIGS_BASE_PATH = `${API_BASE_PATH}/configs`;
 
 const COGNITO_BASE_PATH = "https://iaq-ui.auth.us-east-1.amazoncognito.com";
