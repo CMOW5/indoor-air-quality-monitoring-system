@@ -80,7 +80,7 @@ public class Pm25SensorAwsTimestreamRepository implements Pm25SensorRepository {
 
         String stationId = datapoint.getStationId();
         String timestamp = datapoint.getTimestamp();
-        int value = datapoint.getMeasureAsBigint();
+        int value = datapoint.getMeasureValue();
 
         return new Pm25SensorDataPoint(stationId, Instant.ofEpochMilli(Long.parseLong(timestamp)), value);
     }
