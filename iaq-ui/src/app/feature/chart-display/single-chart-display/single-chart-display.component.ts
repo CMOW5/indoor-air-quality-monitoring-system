@@ -64,6 +64,10 @@ export class SingleChartDisplayComponent implements OnInit {
       x: {
         //suggestedMax: "2022-08-06T04:33:17Z",
         type: 'time',
+        title: {
+          display: true,
+          text: 'Time'
+        },
         
         ticks: {
           /*
