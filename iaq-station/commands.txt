@@ -11,3 +11,8 @@ free -h
 
 # disk space
 df -h
+
+ssh pi@<ip>
+
+
+rsync -avz . pi@192.168.1.7:<folder>/ 
